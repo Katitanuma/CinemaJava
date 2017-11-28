@@ -5,17 +5,20 @@
  */
 package cinemaevolution;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author Katy Nuñez
  */
-public class MDICinema extends javax.swing.JFrame {
+public class JMDICinema extends javax.swing.JFrame {
 
     /**
      * Creates new form MDICinema
      */
-    public MDICinema() {
+    public JMDICinema() {
         initComponents();
+        setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -27,7 +30,7 @@ public class MDICinema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        desktopPane = new javax.swing.JDesktopPane();
+        dtpMdi = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -45,11 +48,19 @@ public class MDICinema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        dtpMdi.setBackground(new java.awt.Color(68, 177, 182));
+        dtpMdi.setName(""); // NOI18N
+
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
         openMenuItem.setMnemonic('o');
         openMenuItem.setText("Open");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setMnemonic('s');
@@ -112,12 +123,14 @@ public class MDICinema extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(dtpMdi, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(dtpMdi, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
         );
+
+        dtpMdi.getAccessibleContext().setAccessibleParent(null);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -125,6 +138,17 @@ public class MDICinema extends javax.swing.JFrame {
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+               
+        JIFPeliculaCartelera tec=new JIFPeliculaCartelera();
+        dtpMdi.add(tec);
+        tec.show();
+        Dimension dim=dtpMdi.getSize();
+        Dimension dimf=tec.getSize();
+        tec.setLocation((dim.width-dimf.width)/2,(dim.height-dimf.height)/2);       
+        
+    }//GEN-LAST:event_openMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,20 +167,21 @@ public class MDICinema extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JMDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JMDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JMDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JMDICinema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MDICinema().setVisible(true);
+                new JMDICinema().setVisible(true);
             }
         });
     }
@@ -167,7 +192,7 @@ public class MDICinema extends javax.swing.JFrame {
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenuItem deleteMenuItem;
-    private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JDesktopPane dtpMdi;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;

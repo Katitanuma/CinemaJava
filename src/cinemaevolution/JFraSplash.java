@@ -5,6 +5,15 @@
  */
 package cinemaevolution;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+
 /**
  *
  * @author Katy Nuñez
@@ -16,6 +25,11 @@ public class JFraSplash extends javax.swing.JFrame {
      */
     public JFraSplash() {
         initComponents();
+        setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/imagenes/splah12345.png")).getImage());
+        getContentPane().setBackground(new Color(36,47,65));
+        
+        UIManager.put( "nimbusOrange", new Color( 0, 204, 153 ) );     
     }
 
     /**
@@ -27,17 +41,35 @@ public class JFraSplash extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/splah12345.png"))); // NOI18N
+
+        jProgressBar1.setBackground(new java.awt.Color(0, 204, 153));
+        jProgressBar1.setForeground(new java.awt.Color(0, 153, 153));
+        jProgressBar1.setValue(100);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -79,5 +111,7 @@ public class JFraSplash extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
 }
