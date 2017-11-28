@@ -25,7 +25,6 @@ public class JFraLogin extends javax.swing.JFrame {
     public JFraLogin() {
         initComponents();
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon(getClass().getResource("/imagenes/Loginn.png")).getImage());
         getContentPane().setBackground(new Color(36,47,65));
         //fondo();
     }
@@ -203,7 +202,7 @@ public class JFraLogin extends javax.swing.JFrame {
 
     private void jBtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarActionPerformed
         // TODO add your handling code here:
-        JMDICinema mdi=new JMDICinema();
+        JMDI mdi=new JMDI();
         mdi.show();
     }//GEN-LAST:event_jBtnAceptarActionPerformed
 

@@ -22,7 +22,7 @@ public class JIFPeliculaCartelera extends javax.swing.JInternalFrame {
      * Creates new form JIFPeliculaCartelera
      */
     public JIFPeliculaCartelera() {
-        initComponents();
+        initComponents();       
         fondo();
     }
     
@@ -360,7 +360,5 @@ public class JIFPeliculaCartelera extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTDatos;
     private javax.swing.JTextField jTFBusqueda;
-    private javax.swing.JTextField jTFBusqueda2;
-    private javax.swing.JTextField jTFBusqueda3;
     // End of variables declaration//GEN-END:variables
 }
