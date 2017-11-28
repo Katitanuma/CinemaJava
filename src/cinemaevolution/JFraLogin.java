@@ -80,6 +80,11 @@ public class JFraLogin extends javax.swing.JFrame {
         jBtnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         jBtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel.png"))); // NOI18N
         jBtnCancelar.setText("Cancelar");
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelarActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(29, 151, 115));
 
@@ -201,10 +206,13 @@ public class JFraLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jPFContrasenaActionPerformed
 
     private void jBtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarActionPerformed
-        // TODO add your handling code here:
         JMDI mdi=new JMDI();
         mdi.show();
     }//GEN-LAST:event_jBtnAceptarActionPerformed
+
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
