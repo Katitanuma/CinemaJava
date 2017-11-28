@@ -69,11 +69,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Usuario.png"))); // NOI18N
         jMUsuario.setText("Usuario");
+        jMUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMUsuario.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jMUsuario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMUsuario.setPreferredSize(new java.awt.Dimension(70, 68));
         jMUsuario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionUsuario.setMnemonic('o');
         jMIGestionUsuario.setText("Gestión");
@@ -84,6 +86,7 @@ public class JMDI extends javax.swing.JFrame {
         });
         jMUsuario.add(jMIGestionUsuario);
 
+        jMICambiarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMICambiarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cambio.png"))); // NOI18N
         jMICambiarUsuario.setText("Cambiar Usuario");
         jMICambiarUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -97,10 +100,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMCartelera.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Mostrar.png"))); // NOI18N
         jMCartelera.setText("Cartelera");
+        jMCartelera.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMCartelera.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMCartelera.setPreferredSize(new java.awt.Dimension(70, 68));
+        jMCartelera.setMaximumSize(new java.awt.Dimension(82, 32767));
+        jMCartelera.setPreferredSize(new java.awt.Dimension(82, 68));
         jMCartelera.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionCartelera.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionCartelera.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionCartelera.setText("Gestión");
         jMIGestionCartelera.addActionListener(new java.awt.event.ActionListener() {
@@ -114,12 +120,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Pelicula_1.png"))); // NOI18N
         jMPelicula.setText("Película");
+        jMPelicula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMPelicula.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMPelicula.setPreferredSize(new java.awt.Dimension(70, 68));
         jMPelicula.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionPelicula.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
-        jMIGestionPelicula.setMnemonic('t');
         jMIGestionPelicula.setText("Gestión");
         jMIGestionPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,10 +139,12 @@ public class JMDI extends javax.swing.JFrame {
 
         jMHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Horario.png"))); // NOI18N
         jMHorario.setText("Horario");
+        jMHorario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMHorario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMHorario.setPreferredSize(new java.awt.Dimension(70, 68));
         jMHorario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionHorario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionHorario.setText("Gestión");
         jMIGestionHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -149,10 +158,12 @@ public class JMDI extends javax.swing.JFrame {
 
         jMTecnologia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tecnologia.png"))); // NOI18N
         jMTecnologia.setText("Tecnología");
+        jMTecnologia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMTecnologia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMTecnologia.setPreferredSize(new java.awt.Dimension(77, 68));
+        jMTecnologia.setPreferredSize(new java.awt.Dimension(88, 68));
         jMTecnologia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionTecnologia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionTecnologia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionTecnologia.setMnemonic('c');
         jMIGestionTecnologia.setText("Gestión");
@@ -167,11 +178,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMCarteleraPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Cartelera_1.png"))); // NOI18N
         jMCarteleraPelicula.setText("Cartelera-Película");
+        jMCarteleraPelicula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMCarteleraPelicula.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMCarteleraPelicula.setMaximumSize(new java.awt.Dimension(110, 32767));
-        jMCarteleraPelicula.setPreferredSize(new java.awt.Dimension(115, 68));
+        jMCarteleraPelicula.setMaximumSize(new java.awt.Dimension(138, 32767));
+        jMCarteleraPelicula.setPreferredSize(new java.awt.Dimension(138, 68));
         jMCarteleraPelicula.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionCartePeli.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionCartePeli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionCartePeli.setText("Gestión");
         jMIGestionCartePeli.addActionListener(new java.awt.event.ActionListener() {
@@ -185,10 +198,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMEstrenos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/PeliculasCartelera.png"))); // NOI18N
         jMEstrenos.setText("Estrenos");
+        jMEstrenos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMEstrenos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMEstrenos.setPreferredSize(new java.awt.Dimension(70, 68));
+        jMEstrenos.setMaximumSize(new java.awt.Dimension(77, 32767));
+        jMEstrenos.setPreferredSize(new java.awt.Dimension(77, 68));
         jMEstrenos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIVisualizarEstreno.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIVisualizarEstreno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/32.png"))); // NOI18N
         jMIVisualizarEstreno.setText("Visualizar");
         jMIVisualizarEstreno.addActionListener(new java.awt.event.ActionListener() {
@@ -202,10 +218,12 @@ public class JMDI extends javax.swing.JFrame {
 
         jMFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Factura_1.png"))); // NOI18N
         jMFactura.setText("Factura");
+        jMFactura.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMFactura.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMFactura.setPreferredSize(new java.awt.Dimension(70, 68));
         jMFactura.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionFactura.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionFactura.setText("Gestión");
         jMIGestionFactura.addActionListener(new java.awt.event.ActionListener() {
@@ -219,10 +237,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Empleado1.png"))); // NOI18N
         jMEmpleado.setText("Empleado");
+        jMEmpleado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMEmpleado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMEmpleado.setPreferredSize(new java.awt.Dimension(70, 68));
+        jMEmpleado.setMaximumSize(new java.awt.Dimension(83, 32767));
+        jMEmpleado.setPreferredSize(new java.awt.Dimension(83, 68));
         jMEmpleado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIGestionEmpleado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIGestionEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_pencil_173067.png"))); // NOI18N
         jMIGestionEmpleado.setText("Gestión");
         jMIGestionEmpleado.addActionListener(new java.awt.event.ActionListener() {
@@ -236,10 +257,13 @@ public class JMDI extends javax.swing.JFrame {
 
         jMReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Report.png"))); // NOI18N
         jMReportes.setText("Reportes");
+        jMReportes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMReportes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jMReportes.setPreferredSize(new java.awt.Dimension(70, 68));
+        jMReportes.setMaximumSize(new java.awt.Dimension(80, 32767));
+        jMReportes.setPreferredSize(new java.awt.Dimension(80, 68));
         jMReportes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIVisualizarReportes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIVisualizarReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/32.png"))); // NOI18N
         jMIVisualizarReportes.setText("Visualizar");
         jMIVisualizarReportes.addActionListener(new java.awt.event.ActionListener() {
@@ -253,10 +277,12 @@ public class JMDI extends javax.swing.JFrame {
 
         jMLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_log_199213.png"))); // NOI18N
         jMLog.setText("Log Auditoría");
+        jMLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMLog.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMLog.setPreferredSize(new java.awt.Dimension(100, 19));
         jMLog.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jMIVisualizarLog.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMIVisualizarLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/32.png"))); // NOI18N
         jMIVisualizarLog.setText("Visualizar");
         jMIVisualizarLog.addActionListener(new java.awt.event.ActionListener() {

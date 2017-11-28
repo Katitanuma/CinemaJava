@@ -69,6 +69,7 @@ public class JFraLogin extends javax.swing.JFrame {
         setResizable(false);
 
         jBtnAceptar.setBackground(new java.awt.Color(255, 255, 255));
+        jBtnAceptar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jBtnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user_go.png"))); // NOI18N
         jBtnAceptar.setText("Aceptar");
         jBtnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +79,7 @@ public class JFraLogin extends javax.swing.JFrame {
         });
 
         jBtnCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        jBtnCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jBtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel.png"))); // NOI18N
         jBtnCancelar.setText("Cancelar");
         jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
