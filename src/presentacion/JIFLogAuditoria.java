@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cinemaevolution;
+package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Image;

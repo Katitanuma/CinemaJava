@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cinemaevolution;
+package presentacion;
 
 import java.awt.Dimension;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
@@ -311,14 +314,17 @@ public class JMDI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMIGestionUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionUsuarioActionPerformed
-        JIFUsuario user=new JIFUsuario();
-        jDPMdi.add(user);
-        user.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=user.getSize();
-        user.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
-        
+        JIFUsuario user;
+        try {
+            user = new JIFUsuario();
+            jDPMdi.add(user);
+            user.show();
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=user.getSize();
+            user.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }//GEN-LAST:event_jMIGestionUsuarioActionPerformed
 
     private void jMIGestionCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionCarteleraActionPerformed
