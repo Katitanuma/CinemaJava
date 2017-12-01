@@ -684,12 +684,14 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTblUsuarioMousePressed
 
     private void jMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEliminarActionPerformed
-        eliminarUsuario(); 
-        try {
-            llenarTablaUsuario(0, "");
-        } catch (SQLException ex) {
-            Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar el usuario?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            eliminarUsuario(); 
+            try {
+                llenarTablaUsuario(0, "");
+            } catch (SQLException ex) {
+                Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         }
     }//GEN-LAST:event_jMIEliminarActionPerformed
 
     private void jTblUsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblUsuarioMouseReleased
