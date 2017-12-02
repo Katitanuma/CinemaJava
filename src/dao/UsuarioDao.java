@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import logica.UsuarioLogica;
 
 /**
@@ -135,7 +134,8 @@ public class UsuarioDao {
        return codEmpleado;
     }   
     
-     public ArrayList<String> mostrarTipoUsuarios() throws SQLException{
+    //llenar combo box
+    public ArrayList<String> mostrarTipoUsuarios() throws SQLException{
         String sql = "{call sp_mostrarTipoUsuario}";
         
         ArrayList<String> miLista;
