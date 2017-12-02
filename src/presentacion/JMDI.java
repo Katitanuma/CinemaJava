@@ -358,13 +358,17 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionHorarioActionPerformed
 
     private void jMIGestionTecnologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionTecnologiaActionPerformed
-        JIFTecnologia tecno=new JIFTecnologia();
-        jDPMdi.add(tecno);
-        tecno.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=tecno.getSize();
-        tecno.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+       JIFTecnologia tec;
+        try {
+            tec = new JIFTecnologia();
+            jDPMdi.add(tec);
+            tec.show();
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=tec.getSize();
+            tec.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }//GEN-LAST:event_jMIGestionTecnologiaActionPerformed
 
     private void jMIGestionCartePeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionCartePeliActionPerformed

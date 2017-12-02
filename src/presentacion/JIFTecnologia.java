@@ -5,12 +5,24 @@
  */
 package presentacion;
 
+import dao.TecnologiaDao;
+import dao.UsuarioDao;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Image;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import logica.TecnologiaLogica;
+import logica.UsuarioLogica;
 
 /**
  *
@@ -21,9 +33,13 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
     /**
      * Creates new form JIFTecnologia
      */
-    public JIFTecnologia() {
+    public JIFTecnologia() throws SQLException {
         initComponents();
         fondo();
+        llenarTablaPelicula(0,"");
+        llenarComboBoxTecnologia();    
+        llenarComboBoxPelicula();
+        habilitarControles(true, false, false, false,true,false);
     }
     
     public void fondo(){
@@ -48,6 +64,11 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMIEditar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMIEliminar = new javax.swing.JMenuItem();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -67,22 +88,51 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTDatos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jTblTecnologia = new javax.swing.JTable();
+        jBtnNuevo = new javax.swing.JButton();
+        jBtnModificar = new javax.swing.JButton();
+        jBtnGuardar = new javax.swing.JButton();
+        jBtnCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jRBTecnologia = new javax.swing.JRadioButton();
         jRBPelicula = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         jTFBusqueda = new javax.swing.JTextField();
 
+        jMIEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Restart_30px.png"))); // NOI18N
+        jMIEditar.setText("Editar");
+        jMIEditar.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jMIEditarComponentShown(evt);
+            }
+        });
+        jMIEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIEditarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMIEditar);
+        jPopupMenu1.add(jSeparator1);
+
+        jMIEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
+        jMIEliminar.setText("Eliminar");
+        jMIEliminar.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jMIEliminarComponentShown(evt);
+            }
+        });
+        jMIEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIEliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMIEliminar);
+
         setClosable(true);
         setTitle("CinemaEvolution");
 
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 1, 26)); // NOI18N
-        jLabel1.setText("Tecnología");
+        jLabel1.setText("Película Tecnología");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel1.setOpaque(false);
@@ -108,10 +158,10 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCboPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jCboPelicula, 0, 239, Short.MAX_VALUE)
                             .addComponent(jTFPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCboTecnologia, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jCboTecnologia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -162,7 +212,7 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
         jPanel13.setBackground(new java.awt.Color(0, 128, 166));
         jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTDatos.setModel(new javax.swing.table.DefaultTableModel(
+        jTblTecnologia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -170,21 +220,51 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
                 "Nombre Pelicula", "Tipo Tecnología", "Precio"
             }
         ));
-        jScrollPane1.setViewportView(jTDatos);
+        jTblTecnologia.setComponentPopupMenu(jPopupMenu1);
+        jTblTecnologia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblTecnologiaMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTblTecnologiaMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTblTecnologia);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_1.png"))); // NOI18N
+        jBtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_1.png"))); // NOI18N
+        jBtnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnNuevoActionPerformed(evt);
+            }
+        });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update_1.png"))); // NOI18N
+        jBtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update_1.png"))); // NOI18N
+        jBtnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnModificarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save_1.png"))); // NOI18N
+        jBtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save_1.png"))); // NOI18N
+        jBtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnGuardarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel_1.png"))); // NOI18N
+        jBtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel_1.png"))); // NOI18N
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelarActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda por", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
         jPanel2.setOpaque(false);
 
         buttonGroup1.add(jRBTecnologia);
         jRBTecnologia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRBTecnologia.setSelected(true);
         jRBTecnologia.setText("Tecnología");
 
         buttonGroup1.add(jRBPelicula);
@@ -196,6 +276,11 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
         jTFBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTFBusquedaActionPerformed(evt);
+            }
+        });
+        jTFBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBusquedaKeyReleased(evt);
             }
         });
 
@@ -259,26 +344,25 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
                                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(75, 75, 75))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(87, 87, 87)
-                                        .addComponent(jLabel1)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jBtnNuevo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtnGuardar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtnModificar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,7 +388,7 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,11 +414,11 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton4))))
+                                .addComponent(jBtnModificar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jBtnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jBtnCancelar))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,16 +431,265 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTFBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFBusquedaActionPerformed
-        // TODO add your handling code here:
+
+        
     }//GEN-LAST:event_jTFBusquedaActionPerformed
- 
+
+    private void jBtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNuevoActionPerformed
+        habilitarControles(false,true,false,true,true,false);
+        limpiar();
+    }//GEN-LAST:event_jBtnNuevoActionPerformed
+
+    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
+        
+        if(validar()== true){
+        try {
+            TecnologiaLogica tl = new TecnologiaLogica();
+            TecnologiaDao ud = new TecnologiaDao();
+            
+            
+            tl.setIdTecnologia(ud.obtenerIdTecnologia(jCboTecnologia.getSelectedItem().toString()));  
+            tl.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            tl.setPrecio(Double.parseDouble(this.jTFPrecio.getText().trim()));
+            ud.insertarPeliculaTecnologia(tl);
+            JOptionPane.showMessageDialog(null, "Registro insertado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaPelicula(0,"");
+            habilitarControles(true, false, false, false, false, true);
+            jCboTecnologia.requestFocus();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar la tecnologia de la película: " + e);
+        }
+        }
+    }//GEN-LAST:event_jBtnGuardarActionPerformed
+
+    private void jBtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnModificarActionPerformed
+        
+        if(validar()==true){
+        try {
+          TecnologiaDao ud = new TecnologiaDao();
+          TecnologiaLogica tl = new TecnologiaLogica();
+          
+            tl.setIdTecnologia(ud.obtenerIdTecnologia(jCboTecnologia.getSelectedItem().toString()));  
+            tl.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            tl.setPrecio(Double.parseDouble(this.jTFPrecio.getText().trim()));
+          
+          ud.actualizarPeliculaTecnologia(tl);
+          
+            JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaPelicula(0,"");
+            habilitarControles(true,false,false,false,true,false);
+            jCboTecnologia.requestFocus();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: " + e);
+        }
+       }
+    }//GEN-LAST:event_jBtnModificarActionPerformed
+
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+        
+        if(JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de cancelar el proceso?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            limpiar();
+            habilitarControles(true, false, false, false, true,false);
+            try{
+            llenarTablaPelicula(0,"");
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "Error al actualizar la tabla: " + e);
+            }
+        }
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
+
+    private void jMIEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEditarActionPerformed
+        
+            habilitarControles(false, false, true, true,false,true);
+            jTFBusqueda.setText("");
+            
+    }//GEN-LAST:event_jMIEditarActionPerformed
+
+    private void jTblTecnologiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblTecnologiaMouseClicked
+        filaSeleccionada();
+    }//GEN-LAST:event_jTblTecnologiaMouseClicked
+
+    private void jTblTecnologiaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblTecnologiaMouseReleased
+        filaSeleccionada();
+    }//GEN-LAST:event_jTblTecnologiaMouseReleased
+
+    private void jTFBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBusquedaKeyReleased
+        busquedaPeliculaTecnologia();
+    }//GEN-LAST:event_jTFBusquedaKeyReleased
+
+    private void jMIEditarComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jMIEditarComponentShown
+        
+    }//GEN-LAST:event_jMIEditarComponentShown
+
+    private void jMIEliminarComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jMIEliminarComponentShown
+        
+    }//GEN-LAST:event_jMIEliminarComponentShown
+
+    private void jMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEliminarActionPerformed
+        try {
+            TecnologiaLogica ul = new TecnologiaLogica();
+            TecnologiaDao ud = new TecnologiaDao();
+            ul.setIdPelicula(ud.obtenerIdPelicula(String.valueOf(this.jTblTecnologia.getValueAt(jTblTecnologia.getSelectedRow(),0))));
+            ul.setIdTecnologia(ud.obtenerIdTecnologia(String.valueOf(this.jTblTecnologia.getValueAt(jTblTecnologia.getSelectedRow(),1))));
+            
+            ud.eliminarPeliculaTecnologia(ul);
+            JOptionPane.showMessageDialog(null, "Registro eliminar satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaPelicula(0,"");
+            jTFBusqueda.setText("");
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminae el usuario: " + e);
+        }
+    }//GEN-LAST:event_jMIEliminarActionPerformed
+    
+    private void habilitarControles(boolean nuevo, boolean guardar, boolean actualizar, boolean cancelar, boolean tabla,boolean panel){
+        
+        jBtnNuevo.setEnabled(nuevo);
+        jBtnGuardar.setEnabled(guardar);
+        jBtnModificar.setEnabled(actualizar);
+        jBtnCancelar.setEnabled(cancelar);
+        jTblTecnologia.setEnabled(tabla);
+        habilitarPanel(jPanel1, panel);
+        
+    }
+    
+    private void habilitarPanel(JPanel panel, Boolean habilitar) {
+        panel.setEnabled(habilitar);
+
+        Component[] components = panel.getComponents();
+
+        for (int i = 0; i < components.length; i++) {
+            if (components[i].getClass().getName() == "javax.swing.JPanel") {
+                habilitarPanel((JPanel) components[i], habilitar);
+            }
+            components[i].setEnabled(habilitar);
+        }
+    }
+    
+    private void limpiar(){
+        jTFPrecio.setText("");
+        jCboTecnologia.setSelectedIndex(0);
+        jCboPelicula.setSelectedIndex(0);
+    }
+    
+    
+    private void filaSeleccionada() {
+        if (this.jTblTecnologia.getSelectedRow() != -1) {
+            if (this.jTblTecnologia.isEnabled() == true) {
+                
+                this.jCboPelicula.setSelectedItem(String.valueOf(this.jTblTecnologia.getValueAt(jTblTecnologia.getSelectedRow(),0)));
+                this.jCboTecnologia.setSelectedItem(String.valueOf(this.jTblTecnologia.getValueAt(jTblTecnologia.getSelectedRow(),1)));
+                this.jTFPrecio.setText(String.valueOf(this.jTblTecnologia.getValueAt(jTblTecnologia.getSelectedRow(),2)));
+            }
+            
+        } else {
+            limpiar();
+        }
+    }
+    
+    private void limpiarTablaTecnologia(){
+        DefaultTableModel dtm = (DefaultTableModel) this.jTblTecnologia.getModel(); 
+        
+        while (dtm.getRowCount() > 0) {
+            dtm.removeRow(0);
+        }
+    }  
+    
+    
+    
+    private void llenarTablaPelicula(int tipoBusqueda, String filtro) throws SQLException{
+        limpiarTablaTecnologia();
+        TecnologiaDao ud = new TecnologiaDao();
+        List<TecnologiaLogica> miLista = ud.getListaPeliculaTecnologia(tipoBusqueda, filtro);  
+        DefaultTableModel temp = (DefaultTableModel) this.jTblTecnologia.getModel(); 
+        
+        for(TecnologiaLogica ul: miLista){ 
+            Object[] fila = new Object[3];   
+            fila[0] = ul.getNombrePelicula();
+            fila[1] = ul.getTecnologia();
+            fila[2] = ul.getPrecio();
+            temp.addRow(fila);
+        }   
+    }
+
+    
+    private void busquedaPeliculaTecnologia(){
+        if(!jTFBusqueda.getText().equals("")){
+            if(jRBTecnologia.isSelected() == true){
+                try {
+                    llenarTablaPelicula(1, jTFBusqueda.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFTecnologia.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                    llenarTablaPelicula(2, jTFBusqueda.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFTecnologia.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }else{
+            try {
+                    llenarTablaPelicula(0, "");
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFTecnologia.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+    }
+    
+    private void llenarComboBoxTecnologia() throws SQLException{
+        TecnologiaDao ud = new TecnologiaDao();
+        String[] tecnologia = new String[ud.mostrarTecnologia().size()];
+        tecnologia = ud.mostrarTecnologia().toArray(tecnologia);
+        DefaultComboBoxModel modeloTecnologia = new DefaultComboBoxModel(tecnologia);
+        jCboTecnologia.setModel(modeloTecnologia);
+    }
+
+    private void llenarComboBoxPelicula() throws SQLException{
+        TecnologiaDao ud = new TecnologiaDao();
+        String[] tecnologia = new String[ud.mostrarNombrePelicula().size()];
+        tecnologia = ud.mostrarNombrePelicula().toArray(tecnologia);
+        DefaultComboBoxModel modeloPelicula = new DefaultComboBoxModel(tecnologia);
+        jCboPelicula.setModel(modeloPelicula);
+    }
+    
+    
+    private boolean validar(){
+        boolean estado;
+        
+        if(jCboPelicula.getSelectedIndex()== 0){
+            JOptionPane.showMessageDialog(null, "Seleccione una película");
+            jTFPrecio.requestFocus();
+            estado = false;    
+        }else if(jCboTecnologia.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Seleccione un tipo de tecnología");
+            jCboTecnologia.requestFocus();
+            estado = false;    
+        }else if(jTFPrecio.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese un precio");
+            jTFPrecio.requestFocus();
+            estado = false;      
+        }else{
+            estado = true;
+        }
+        return estado;
+    }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jBtnCancelar;
+    private javax.swing.JButton jBtnGuardar;
+    private javax.swing.JButton jBtnModificar;
+    private javax.swing.JButton jBtnNuevo;
     private javax.swing.JComboBox<String> jCboPelicula;
     private javax.swing.JComboBox<String> jCboTecnologia;
     private javax.swing.JLabel jLabel1;
@@ -364,6 +697,8 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenuItem jMIEditar;
+    private javax.swing.JMenuItem jMIEliminar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -376,11 +711,13 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JRadioButton jRBPelicula;
     private javax.swing.JRadioButton jRBTecnologia;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTDatos;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTFBusqueda;
     private javax.swing.JTextField jTFPrecio;
+    private javax.swing.JTable jTblTecnologia;
     // End of variables declaration//GEN-END:variables
 }
