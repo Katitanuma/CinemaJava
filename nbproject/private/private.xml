@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Netbeans/CinemaEvolution/src/presentacion/JIFUsuario.java</file>
+            <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/dao/UsuarioDao.java</file>
+            <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/dao/CarteleraPeliculaDao.java</file>
+            <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/presentacion/JIFUsuario.java</file>
+            <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/logica/CarteleraPeliculaLogica.java</file>
+            <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/presentacion/JIFPeliculaCartelera.java</file>
         </group>
     </open-files>
 </project-private>
