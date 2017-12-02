@@ -7,99 +7,75 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import logica.FacturaLogica;
 import logica.UsuarioLogica;
 
 /**
  *
  * @author Marcio Martinez
  */
-public class UsuarioDao {
+public class FacturaDao {
     private final Connection cn;
 
-    public UsuarioDao() throws SQLException {
+    public FacturaDao() throws SQLException {
         this.cn = Conexion.conectar();
     }
     
-    public void insertarUsuario(UsuarioLogica ul) throws SQLException{
-        String sql = "{call sp_insertarUsuario(?,?,?,?)}";
+    public void insertarUsuario(FacturaLogica fl) throws SQLException{
+        String sql = "{call sp_insertarFactura(?,?,?,?,?,?)}";
         
         try(PreparedStatement ps = cn.prepareStatement(sql)){
           
-            ps.setString(1, ul.getNombreUsuario());
-            ps.setString(2, ul.getContrasena());
-            ps.setInt(3, ul.getIdTipoUsuario());
-            ps.setString(4, ul.getCodEmpleado());
+            ps.setDate(1, fl.getFecha());
+            ps.setInt(2, fl.getCantidad());
+            ps.setDouble(3, fl.getPrecio());
+            ps.setInt(4, fl.getIdPelicula());
+            ps.setInt(5, fl.getIdTecnologia());
+            ps.setInt(6, fl.getIdUsuario());
             ps.execute();
         }
     }   
     
-    public void actualizarUsuario(UsuarioLogica ul) throws SQLException{
-        String sql = "{call sp_actualizarUsuario(?,?,?,?,?)}";
-        
-        try(PreparedStatement ps = cn.prepareStatement(sql)){
-            ps.setInt(1, ul.getIdUsuario());
-            ps.setString(2, ul.getNombreUsuario());
-            ps.setString(3, ul.getContrasena());
-            ps.setInt(4, ul.getIdTipoUsuario());
-            ps.setString(5, ul.getCodEmpleado());
-            ps.execute();
-        }
-    } 
-    
-    public void eliminarUsuario(UsuarioLogica c1) throws SQLException{
-        String sql = "{call sp_eliminarUsuario(?)}";
-        
-        try(PreparedStatement ps = cn.prepareStatement(sql)){
-            ps.setInt(1, c1.getIdUsuario());
-            ps.execute();
-        }
-    }   
-    
-    public int autoIncrementarUsuario() throws SQLException{
-        int idUsuario = 0;    
-        String sql = "{call sp_autoIncrementarUsuario}";
+    public int autoIncrementarFactura() throws SQLException{
+        int idFactura = 0;    
+        String sql = "{call sp_autoIncrementarFactura}";
         
         Statement st = cn.createStatement();
         ResultSet rs = st.executeQuery(sql);
         rs.first();
         
-        idUsuario = rs.getInt("idusuario");
+        idFactura = rs.getInt("idfactura");
         
-        if(idUsuario == 0){
-            idUsuario = 1;
+        if(idFactura == 0){
+            idFactura = 1;
         }
             
-       return idUsuario;
+       return idFactura;
     }   
     
-    public List<UsuarioLogica> getListaUsuario(int tipoBusqueda, String filtro) throws SQLException{
-        String sql;
-        if(tipoBusqueda == 0){
-            sql = "{call sp_mostrarTodoUsuario}";
-        }else if(tipoBusqueda == 1){
-            sql = "{call sp_mostrarTodoUsuarioPorNombreUsuario(?)}";
-        }else{
-            sql = "{call sp_mostrarTodoUsuarioPorEmpleado(?)}";
-        }
-           
-        List<UsuarioLogica> miLista;
+    public List<FacturaLogica> getListaFactura(int tipoBusqueda, String filtro) throws SQLException{
+        String sql = "{call sp_mostrarTodoFactura(?,?)}";
+          
+        List<FacturaLogica> miLista;
         
         try(PreparedStatement ps = cn.prepareStatement(sql)){       
             
-            if(tipoBusqueda != 0){
-                ps.setString(1, filtro);
-            }
+            ps.setInt(1, tipoBusqueda);
+            ps.setString(2, filtro);
+            
             ResultSet rs = ps.executeQuery();
             
             miLista = new ArrayList<>();
             while(rs.next()){
-                UsuarioLogica ul = new UsuarioLogica();
-                ul.setIdUsuario(rs.getInt("idusuario"));
-                ul.setNombreUsuario(rs.getString("nombreusuario"));
-                ul.setContrasena(rs.getString("contrasena"));
-                ul.setTipoUsuario(rs.getString("tipousuario"));
-                ul.setNombreEmpleado(rs.getString("nombrecompletoempleado"));
-                miLista.add(ul);
+                FacturaLogica fl = new FacturaLogica();
+                fl.setIdFactura(rs.getInt("idfactura"));
+                fl.setFecha(rs.getDate("fecha"));
+                fl.setPelicula(rs.getString("nombrepelicula"));
+                fl.setTecnologia(rs.getString("tipotecnologia"));
+                fl.setCantidad(rs.getInt("cantidaboleto"));
+                fl.setPrecio(rs.getDouble("precioboleto"));
+                fl.setTotal(rs.getDouble("total"));
+                miLista.add(fl);
             }
             
         }
@@ -134,8 +110,7 @@ public class UsuarioDao {
        return codEmpleado;
     }   
     
-    //llenar combo box
-    public ArrayList<String> mostrarTipoUsuarios() throws SQLException{
+     public ArrayList<String> mostrarTipoUsuarios() throws SQLException{
         String sql = "{call sp_mostrarTipoUsuario}";
         
         ArrayList<String> miLista;

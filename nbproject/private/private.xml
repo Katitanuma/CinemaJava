@@ -3,11 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/dao/UsuarioDao.java</file>
             <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/dao/CarteleraPeliculaDao.java</file>
             <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/presentacion/JIFUsuario.java</file>
             <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/logica/CarteleraPeliculaLogica.java</file>
             <file>file:/C:/Users/Usuario%20Autorizado/Desktop/Proyecto%20POO/CinemaJava/src/presentacion/JIFPeliculaCartelera.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/usuario/Desktop/CINEMA/CinemaJava/src/presentacion/JIFFactura.java</file>
+            <file>file:/C:/Users/usuario/Desktop/CINEMA/CinemaJava/src/presentacion/JIFUsuario.java</file>
+=======
+            <file>file:/D:/Netbeans/CinemaEvolution/src/presentacion/JIFUsuario.java</file>
+>>>>>>> 9ea5d5ee0345057e6ed615478abbbf9a3b0d49c2
+>>>>>>> 0947a73359392f308a38994f9dba26f8f8c4e3ae
         </group>
     </open-files>
 </project-private>
