@@ -328,13 +328,19 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionUsuarioActionPerformed
 
     private void jMIGestionCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionCarteleraActionPerformed
-        JIFCartelera carte=new JIFCartelera();
-        jDPMdi.add(carte);
-        carte.show();
+        JIFCartelera carte;
+        try {
+            carte = new JIFCartelera();
+            jDPMdi.add(carte);
+            carte.show();
         
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=carte.getSize();
-        carte.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=carte.getSize();
+            carte.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jMIGestionCarteleraActionPerformed
 
     private void jMIGestionPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionPeliculaActionPerformed
