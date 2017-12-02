@@ -51,15 +51,16 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
         this.add(fondo, BorderLayout.CENTER);
         this.setSize(getWidth() + 10,fondo.getHeight() + 35);
     }
+    
     private void habilitarControles(boolean nuevo, boolean guardar, boolean actualizar, boolean cancelar, boolean panel, boolean tabla){
         jBtnNuevo.setEnabled(nuevo);
         jBtnGuardar.setEnabled(guardar);
         jBtnActualizar.setEnabled(actualizar);
         jBtnCancelar.setEnabled(cancelar);
         jTblUsuario.setEnabled(tabla);
-        habilitarPanel(jPnlUsuario, panel);
-        
+        habilitarPanel(jPnlUsuario, panel);        
     }
+    
     private void habilitarPanel(JPanel panel, Boolean habilitar) {
         panel.setEnabled(habilitar);
 
@@ -72,6 +73,7 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
             components[i].setEnabled(habilitar);
         }
     }
+    
     private void limpiar(){
         jTFIdUsuario.setText("");
         jTFUsuario.setText("");
@@ -79,12 +81,14 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
         jCboTipoUsuario.setSelectedIndex(0);
         jCboEmpleado.setSelectedIndex(0);
     }
+    
     private void investigarCorrelativoUsuario() throws SQLException{
         UsuarioDao ud = new UsuarioDao();
         UsuarioLogica ul = new UsuarioLogica();
         ul.setIdUsuario(ud.autoIncrementarUsuario());
         jTFIdUsuario.setText(String.valueOf(ul.getIdUsuario()));
     }
+    
     private boolean validar(){
         boolean estado;
         
@@ -109,6 +113,7 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
         }
         return estado;
     }
+    
     private void llenarComboBoxTipoUsuario() throws SQLException{
         UsuarioDao ud = new UsuarioDao();
         String[] tipoUsuarios = new String[ud.mostrarTipoUsuarios().size()];
@@ -116,6 +121,7 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
         DefaultComboBoxModel modeloTipoUsuarios = new DefaultComboBoxModel(tipoUsuarios);
         jCboTipoUsuario.setModel(modeloTipoUsuarios);
     }
+    
     private void llenarComboBoxEmpleado() throws SQLException{
         UsuarioDao ud = new UsuarioDao();
         String[] empleados = new String[ud.mostrarEmpleados().size()];
@@ -123,13 +129,15 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
         DefaultComboBoxModel modeloEmpleados = new DefaultComboBoxModel(empleados);
         jCboEmpleado.setModel(modeloEmpleados);
     }
+    
     private void limpiarTablaUsuario(){
         DefaultTableModel dtm = (DefaultTableModel) this.jTblUsuario.getModel(); 
         
         while (dtm.getRowCount() > 0) {
             dtm.removeRow(0);
         }
-    }      
+    }    
+    
     private void llenarTablaUsuario(int tipoBusqueda, String filtro) throws SQLException{
         limpiarTablaUsuario();
         UsuarioDao ud = new UsuarioDao();
@@ -149,6 +157,7 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
         jTblUsuario.getColumnModel().getColumn(2).setMaxWidth(0);
         jTblUsuario.getColumnModel().getColumn(2).setPreferredWidth(0);
     }
+    
     private void filaSeleccionada() {
         if (this.jTblUsuario.getSelectedRow() != -1) {
             if (this.jTblUsuario.isEnabled() == true) {
@@ -162,39 +171,40 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
             limpiar();
         }
     }
+    
     private void guardarUsuario(){
         try {
             UsuarioLogica ul = new UsuarioLogica();
             UsuarioDao ud = new UsuarioDao();
             ul.setNombreUsuario(this.jTFUsuario.getText().trim());
-            ul.setContrasena(this.jPFContrasena.getText().toString());
+            ul.setContrasena(this.jPFContrasena.getText());
             ul.setIdTipoUsuario(ud.obtenerIdTipoUsuario(jCboTipoUsuario.getSelectedItem().toString()));
             ul.setCodEmpleado(ud.obtenerCodEmpleado(jCboEmpleado.getSelectedItem().toString()));
             ud.insertarUsuario(ul);
             JOptionPane.showMessageDialog(null, "Registro almacenado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
-            limpiar();
-            
+            limpiar();            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al almacenar el usuario: " + e);
         }
     }
+    
     private void actualizarUsuario(){
         try {
             UsuarioLogica ul = new UsuarioLogica();
             UsuarioDao ud = new UsuarioDao();
             ul.setIdUsuario(Integer.parseInt(this.jTFIdUsuario.getText().trim()));
             ul.setNombreUsuario(this.jTFUsuario.getText().trim());
-            ul.setContrasena(this.jPFContrasena.getText().toString());
+            ul.setContrasena(this.jPFContrasena.getText());
             ul.setIdTipoUsuario(ud.obtenerIdTipoUsuario(jCboTipoUsuario.getSelectedItem().toString()));
             ul.setCodEmpleado(ud.obtenerCodEmpleado(jCboEmpleado.getSelectedItem().toString()));      
             ud.actualizarUsuario(ul);
             JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
-            limpiar();
-            
+            limpiar();            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: " + e);
         }
     }
+    
     private void eliminarUsuario(){
         try {
             UsuarioLogica ul = new UsuarioLogica();
@@ -202,12 +212,12 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
             ul.setIdUsuario(Integer.parseInt(this.jTFIdUsuario.getText().trim()));    
             ud.eliminarUsuario(ul);
             JOptionPane.showMessageDialog(null, "Registro eliminar satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
-            limpiar();
-            
+            limpiar();            
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminae el usuario: " + e);
+            JOptionPane.showMessageDialog(null, "Error al eliminar el usuario: " + e);
         }
     }
+    
     private void busquedaUsuario(){
         if(!jTFBusqueda.getText().equals("")){
             if(jRBUsuario.isSelected() == true){
@@ -672,6 +682,7 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
 
     private void jMIEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEditarActionPerformed
         habilitarControles(false, false, true, true, true, false);
+        jTFBusqueda.setText("");
     }//GEN-LAST:event_jMIEditarActionPerformed
 
     private void jTblUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblUsuarioMouseClicked
@@ -684,14 +695,15 @@ public class JIFUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTblUsuarioMousePressed
 
     private void jMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEliminarActionPerformed
-         if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar el usuario?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+        if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar el usuario?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             eliminarUsuario(); 
             try {
                 llenarTablaUsuario(0, "");
             } catch (SQLException ex) {
                 Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-         }
+        }
+        jTFBusqueda.setText("");
     }//GEN-LAST:event_jMIEliminarActionPerformed
 
     private void jTblUsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblUsuarioMouseReleased
