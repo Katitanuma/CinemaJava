@@ -20,6 +20,7 @@ public class JMDI extends javax.swing.JFrame {
     /**
      * Creates new form JMDI
      */
+    public static int idUsuario;
     public JMDI() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
@@ -392,13 +393,19 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIVisualizarEstrenoActionPerformed
 
     private void jMIGestionFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionFacturaActionPerformed
-        JIFFactura fac=new JIFFactura();
-        jDPMdi.add(fac);
-        fac.show();
+        JIFFactura fac;
+        try {
+            fac = new JIFFactura();
+            jDPMdi.add(fac);
+            fac.show();
+
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=fac.getSize();
+            fac.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=fac.getSize();
-        fac.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
     }//GEN-LAST:event_jMIGestionFacturaActionPerformed
 
     private void jMIGestionEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionEmpleadoActionPerformed

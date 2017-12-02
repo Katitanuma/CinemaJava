@@ -5,13 +5,20 @@
  */
 package presentacion;
 
+import dao.LoginDao;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import logica.LoginLogica;
 
 /**
  *
@@ -114,6 +121,11 @@ public class JFraLogin extends javax.swing.JFrame {
                 jTFUsuarioActionPerformed(evt);
             }
         });
+        jTFUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFUsuarioKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -126,6 +138,11 @@ public class JFraLogin extends javax.swing.JFrame {
         jPFContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPFContrasenaActionPerformed(evt);
+            }
+        });
+        jPFContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPFContrasenaKeyPressed(evt);
             }
         });
 
@@ -208,14 +225,54 @@ public class JFraLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jPFContrasenaActionPerformed
 
     private void jBtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarActionPerformed
-        JMDI mdi=new JMDI();
-        mdi.show();
+        iniciarSesion();
     }//GEN-LAST:event_jBtnAceptarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
+    private void jPFContrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPFContrasenaKeyPressed
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           iniciarSesion();
+       }
+    }//GEN-LAST:event_jPFContrasenaKeyPressed
+
+    private void jTFUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFUsuarioKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           iniciarSesion();
+       }
+    }//GEN-LAST:event_jTFUsuarioKeyPressed
+
+    private void iniciarSesion()
+    {
+        if(jTFUsuario.getText().length()>0 && jPFContrasena.getText().length()>0 ){
+            LoginLogica ll = new LoginLogica();
+            try {
+                LoginDao ld = new LoginDao();
+                ll.setUsuario(jTFUsuario.getText());
+                ll.setContrasena(jPFContrasena.getText());
+                ll.setIdUsuario(ld.iniciarSesion(ll));
+                
+                if(ll.getIdUsuario() !=0){
+                    JMDI miMdi = new JMDI();
+                    miMdi.idUsuario = ll.getIdUsuario();
+                    miMdi.show();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Usuario o Contrasena incorrecto","Cinema Evolution",JOptionPane.ERROR_MESSAGE);
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(JFraLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Ingrese el usuario y contraseña","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+       
+    }
     /**
      * @param args the command line arguments
      */

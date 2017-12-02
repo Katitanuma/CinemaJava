@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import logica.FacturaLogica;
-import logica.UsuarioLogica;
+
 
 /**
  *
@@ -21,7 +21,7 @@ public class FacturaDao {
         this.cn = Conexion.conectar();
     }
     
-    public void insertarUsuario(FacturaLogica fl) throws SQLException{
+    public void insertarFactura(FacturaLogica fl) throws SQLException{
         String sql = "{call sp_insertarFactura(?,?,?,?,?,?)}";
         
         try(PreparedStatement ps = cn.prepareStatement(sql)){
@@ -72,7 +72,7 @@ public class FacturaDao {
                 fl.setFecha(rs.getDate("fecha"));
                 fl.setPelicula(rs.getString("nombrepelicula"));
                 fl.setTecnologia(rs.getString("tipotecnologia"));
-                fl.setCantidad(rs.getInt("cantidaboleto"));
+                fl.setCantidad(rs.getInt("cantidadboleto"));
                 fl.setPrecio(rs.getDouble("precioboleto"));
                 fl.setTotal(rs.getDouble("total"));
                 miLista.add(fl);
@@ -82,36 +82,36 @@ public class FacturaDao {
         return miLista;
     }
     
-    public int obtenerIdTipoUsuario(String tipoUsuario) throws SQLException{
-        int idTipoUsuario = 0;    
-        String sql = "{call sp_obtenerIdTipoUsuario(?)}";
+     public int obtenerIdPelicula(String nombrePelicula) throws SQLException{
+        int idPelicula = 0;    
+        String sql = "{call sp_obtenerIdPelicula(?)}";
         
         PreparedStatement ps = cn.prepareStatement(sql);
-        ps.setString(1, tipoUsuario);
+        ps.setString(1, nombrePelicula);
         ResultSet rs = ps.executeQuery();
         
         if(rs.next()){
-            idTipoUsuario = rs.getInt("idtipousuario");
+            idPelicula = rs.getInt("idpelicula");
         }  
-       return idTipoUsuario;
-    }  
+       return idPelicula;
+    }
     
-    public String obtenerCodEmpleado(String nombreEmpleado) throws SQLException{
-        String codEmpleado = "";    
-        String sql = "{call sp_obtenerCodEmpleado(?)}";
+    public int obtenerIdTecnologia(String tecnologia) throws SQLException{
+        int idTecnologia = 0;    
+        String sql = "{call sp_obtenerIdTecnologia(?)}";
         
         PreparedStatement ps = cn.prepareStatement(sql);
-        ps.setString(1, nombreEmpleado);
+        ps.setString(1, tecnologia);
         ResultSet rs = ps.executeQuery();
         
         if(rs.next()){
-            codEmpleado = rs.getString("codempleado");
+            idTecnologia = rs.getInt("idtecnologia");
         }  
-       return codEmpleado;
-    }   
+       return idTecnologia;
+    }
     
-     public ArrayList<String> mostrarTipoUsuarios() throws SQLException{
-        String sql = "{call sp_mostrarTipoUsuario}";
+    public ArrayList<String> mostrarNombrePelicula() throws SQLException{
+        String sql = "{call sp_mostrarNombrePelicula}";
         
         ArrayList<String> miLista;
         
@@ -121,14 +121,15 @@ public class FacturaDao {
             miLista = new ArrayList<>();
             miLista.add("--Seleccione--");
             while(rs.next()){      
-                miLista.add(rs.getString("tipousuario"));
+                miLista.add(rs.getString("nombrepelicula"));
             }
             
         }
         return miLista;
     }
-    public ArrayList<String> mostrarEmpleados() throws SQLException{
-        String sql = "{call sp_mostrarEmpleado}";
+    
+    public ArrayList<String> mostrarTecnologia() throws SQLException{
+        String sql = "{call sp_mostrarTecnologia}";
         
         ArrayList<String> miLista;
         
@@ -138,7 +139,7 @@ public class FacturaDao {
             miLista = new ArrayList<>();
             miLista.add("--Seleccione--");
             while(rs.next()){      
-                miLista.add(rs.getString("nombreempleado"));
+                miLista.add(rs.getString("tipotecnologia"));
             }
             
         }

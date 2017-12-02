@@ -134,7 +134,6 @@ public class UsuarioDao {
        return codEmpleado;
     }   
     
-    //llenar combo box
     public ArrayList<String> mostrarTipoUsuarios() throws SQLException{
         String sql = "{call sp_mostrarTipoUsuario}";
         
