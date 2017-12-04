@@ -9,16 +9,33 @@ import dao.PeliculaDao;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Image;
+import static java.awt.SystemColor.text;
+import java.awt.Toolkit;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import logica.PeliculaLogica;
 
@@ -32,6 +49,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
      * Creates new form JIFPelicula
      * @throws java.sql.SQLException
      */
+    String ubicacion;
     public JIFPelicula() throws SQLException {
         initComponents();
         llenarTablaPelicula(0, "");
@@ -145,18 +163,24 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "IdPelícula", "Nombre Película", "Sinopsis", "Lanzamiento", "Duración", "Género", "Clasificación", "URL"
+                "IdPelícula", "Nombre Película", "Sinopsis", "Lanzamiento", "Duración", "Género", "Clasificación", "URL", "Imagen"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTblPelicula.setComponentPopupMenu(jPopupMenu1);
         jTblPelicula.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTblPeliculaMouseClicked(evt);
             }
-        });
-        jTblPelicula.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTblPeliculaKeyReleased(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTblPeliculaMouseReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jTblPelicula);
@@ -205,8 +229,18 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jLblPelicula.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jBtnAgregarImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/image_add.png"))); // NOI18N
+        jBtnAgregarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAgregarImagenActionPerformed(evt);
+            }
+        });
 
         jBtnQuitarImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/image_delete.png"))); // NOI18N
+        jBtnQuitarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnQuitarImagenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPnlPeliculaLayout = new javax.swing.GroupLayout(jPnlPelicula);
         jPnlPelicula.setLayout(jPnlPeliculaLayout);
@@ -552,7 +586,8 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jBtnActualizar.setEnabled(actualizar);
         jBtnCancelar.setEnabled(cancelar);
         jTblPelicula.setEnabled(tabla);
-        habilitarPanel(jPnlPelicula, panel);        
+        habilitarPanel(jPnlPelicula, panel);   
+        jTASinopsis.setEnabled(panel);
     }   
     private void habilitarPanel(JPanel panel, Boolean habilitar) {
         panel.setEnabled(habilitar);
@@ -588,14 +623,13 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             dtm.removeRow(0);
         }
     }      
-    private void guardarPelicula(){
-        JMDI jmdi=new JMDI();
-        
+    private void guardarPelicula() throws FileNotFoundException{ 
         try {
             PeliculaLogica el = new PeliculaLogica();
             PeliculaDao ed = new PeliculaDao();
             
             el.setNombre(this.jTFNombre.getText().trim());
+            el.setImagen(ubicacion);
             el.setfLanzamiento(this.jTFLanzamiento.getText().trim());
             el.setSinopsis(this.jTASinopsis.getText().trim());
             el.setDuracion(this.jTFDuracion.getText().trim());
@@ -612,12 +646,13 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         }
     }
 //    
-    private void actualizarEmpleado(){
+    private void actualizarEmpleado() throws FileNotFoundException{
         try {
             PeliculaLogica el = new PeliculaLogica();
             PeliculaDao ed = new PeliculaDao();         
             
             el.setIdPelicula(Integer.parseInt(this.jTFCodPelicula.getText().trim()));
+            el.setImagen(ubicacion);
             el.setNombre(this.jTFNombre.getText().trim());
             el.setfLanzamiento(this.jTFLanzamiento.getText().trim());
             el.setSinopsis(this.jTASinopsis.getText().trim());
@@ -687,7 +722,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             fila[5] = ul.getGenero();
             fila[6] = ul.getClasificacion();  
             fila[7] = ul.getUrl();
-            fila[8] = ul.getImagen();
+            fila[8] = ul.getImg();
             
             temp.addRow(fila);
         }   
@@ -726,14 +761,16 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jCboClasificacion.setSelectedIndex(0);
         jTFlink.setText("");
         jTFDuracion.setText("");
+        ubicacion = "";
+        jLblPelicula.setIcon(null);
    }
     private void investigarCorrelativoPelicula() throws SQLException{
-       PeliculaDao ud = new PeliculaDao();
+        PeliculaDao ud = new PeliculaDao();
         PeliculaLogica ul = new PeliculaLogica();
         ul.setIdPelicula(ud.autoIncrementarPelicula());
         jTFCodPelicula.setText(String.valueOf(ul.getIdPelicula()));
     }
-    private void filaSeleccionada() {
+    private void filaSeleccionada() throws UnsupportedEncodingException, IOException {
         if (this.jTblPelicula.getSelectedRow() != -1) {
             if (this.jTblPelicula.isEnabled() == true) {
                 this.jTFCodPelicula.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 0)));
@@ -744,12 +781,27 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                 this.jCboClasificacion.setSelectedItem(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 6)));
                 this.jTFDuracion.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 4)));
                 this.jTFlink.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 7)));        
+                byte[] img = (byte[]) this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 8);
+             
                 
+                try {
+                   
+                    Image miImagen = convertirImagen(img);               
+                    ImageIcon icon = new ImageIcon(miImagen);
+                    Image imgs = icon.getImage();
+                    Image newimg = imgs.getScaledInstance(142, 163, java.awt.Image.SCALE_SMOOTH);
+                    ImageIcon newIcon = new ImageIcon(newimg);
+                    jLblPelicula.setIcon(newIcon);
+                    jLblPelicula.setSize(142, 163);
+                } catch (Exception ex) {
+                    jLblPelicula.setIcon(null);
+                }
             }
         } else {
             limpiar();
         }
     }
+    
     private void jTFBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFBusquedaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFBusquedaActionPerformed
@@ -784,7 +836,11 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
 
     private void JMIEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIEditarActionPerformed
       jTASinopsis.setEnabled(true);
-      filaSeleccionada();
+        try {
+            filaSeleccionada();
+        } catch (IOException ex) {
+            Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
+        }
       habilitarControles(false, false, true, true, true, false); 
       jTFBusqueda.setText("");
        
@@ -792,7 +848,11 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
 
     private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
        if(validar()==true){
-          guardarPelicula(); 
+           try { 
+               guardarPelicula();
+           } catch (FileNotFoundException ex) {
+               Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
+           }
           habilitarControles(true, false, false, false, false, true);
            try {
                llenarTablaPelicula(0, "");
@@ -804,7 +864,11 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
 
     private void jBtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarActionPerformed
         if(validar() == true){
-            actualizarEmpleado(); 
+            try { 
+                actualizarEmpleado();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
+            }
             try {
                 llenarTablaPelicula(0, "");
             } catch (SQLException ex) {
@@ -814,10 +878,6 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             jRBCodPelicula.setSelected(true);
         }
     }//GEN-LAST:event_jBtnActualizarActionPerformed
-
-    private void jTblPeliculaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblPeliculaKeyReleased
-        filaSeleccionada();
-    }//GEN-LAST:event_jTblPeliculaKeyReleased
 
     private void JMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIEliminarActionPerformed
        if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar el empleado?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
@@ -832,8 +892,53 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JMIEliminarActionPerformed
 
     private void jTblPeliculaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblPeliculaMouseClicked
-        filaSeleccionada();
+        try {
+            filaSeleccionada();
+        } catch (IOException ex) {
+            Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTblPeliculaMouseClicked
+    private Image convertirImagen(byte[] bytes) throws IOException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        Iterator readers = ImageIO.getImageReadersByFormatName("jpg");
+        ImageReader reader = (ImageReader) readers.next();
+        Object source = bis; // File or InputStream
+        ImageInputStream iis = ImageIO.createImageInputStream(source);
+        reader.setInput(iis, true);
+        ImageReadParam param = reader.getDefaultReadParam();
+        return reader.read(0, param);
+    }
+    private void jBtnAgregarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAgregarImagenActionPerformed
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivo de imagen", "jpg", "png");
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileFilter(filter);
+        int opcion = jfc.showOpenDialog(this);
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            String file = jfc.getSelectedFile().getAbsolutePath();
+            jLblPelicula.setIcon(new ImageIcon(file));
+            String file2 = jfc.getSelectedFile().toString();
+            ImageIcon icon = new ImageIcon(file);
+            Image img = icon.getImage();
+            Image nuevaImage = img.getScaledInstance(142, 163, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon nuevaIcon = new ImageIcon(nuevaImage);
+            jLblPelicula.setIcon(nuevaIcon);
+            jLblPelicula.setSize(142, 163);
+            ubicacion = file;
+        }
+    }//GEN-LAST:event_jBtnAgregarImagenActionPerformed
+
+    private void jBtnQuitarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnQuitarImagenActionPerformed
+        ubicacion = "";
+        jLblPelicula.setIcon(null);
+    }//GEN-LAST:event_jBtnQuitarImagenActionPerformed
+
+    private void jTblPeliculaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblPeliculaMouseReleased
+        try {
+            filaSeleccionada();
+        } catch (IOException ex) {
+            Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTblPeliculaMouseReleased
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
