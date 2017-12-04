@@ -20,6 +20,7 @@ public class JMDI extends javax.swing.JFrame {
     /**
      * Creates new form JMDI
      */
+    public static int idUsuario;
     public JMDI() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
@@ -328,23 +329,33 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionUsuarioActionPerformed
 
     private void jMIGestionCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionCarteleraActionPerformed
-        JIFCartelera carte=new JIFCartelera();
-        jDPMdi.add(carte);
-        carte.show();
+        JIFCartelera carte;
+        try {
+            carte = new JIFCartelera();
+            jDPMdi.add(carte);
+            carte.show();
         
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=carte.getSize();
-        carte.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=carte.getSize();
+            carte.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jMIGestionCarteleraActionPerformed
 
     private void jMIGestionPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionPeliculaActionPerformed
-        JIFPelicula peli=new JIFPelicula();
-        jDPMdi.add(peli);
-        peli.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=peli.getSize();
-        peli.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        try {
+            JIFPelicula peli=new JIFPelicula();
+            jDPMdi.add(peli);
+            peli.show();
+            
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=peli.getSize();
+            peli.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMIGestionPeliculaActionPerformed
 
     private void jMIGestionHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionHorarioActionPerformed
@@ -372,13 +383,17 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionTecnologiaActionPerformed
 
     private void jMIGestionCartePeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionCartePeliActionPerformed
-        JIFPeliculaCartelera pc=new JIFPeliculaCartelera();
-        jDPMdi.add(pc);
-        pc.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=pc.getSize();
-        pc.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        try {
+            JIFPeliculaCartelera pc=new JIFPeliculaCartelera();
+            jDPMdi.add(pc);
+            pc.show();
+            
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=pc.getSize();
+            pc.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMIGestionCartePeliActionPerformed
 
     private void jMIVisualizarEstrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIVisualizarEstrenoActionPerformed
@@ -392,13 +407,19 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIVisualizarEstrenoActionPerformed
 
     private void jMIGestionFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionFacturaActionPerformed
-        JIFFactura fac=new JIFFactura();
-        jDPMdi.add(fac);
-        fac.show();
+        JIFFactura fac;
+        try {
+            fac = new JIFFactura();
+            jDPMdi.add(fac);
+            fac.show();
+
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=fac.getSize();
+            fac.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=fac.getSize();
-        fac.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
     }//GEN-LAST:event_jMIGestionFacturaActionPerformed
 
     private void jMIGestionEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionEmpleadoActionPerformed
