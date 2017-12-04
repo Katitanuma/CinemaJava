@@ -10,16 +10,16 @@ package logica;
  * @author Steven Lezama
  */
 public class HorarioLogica {
-    private double horario;
+    private String horario;
     private String nombrePelicula,sala;
     private int idPelicula,idHorario;
 
     
-    public double getHorario() {
+    public String getHorario() {
         return horario;
     }
 
-    public void setHorario(double horario) {
+    public void setHorario(String horario) {
         this.horario = horario;
     }
 

@@ -45,6 +45,7 @@ public class HorarioDao {
 
             ps.setInt(1,ul.getIdPelicula());
             ps.setInt(2,ul.getIdHorario());
+            
             ps.execute();
         }
     }
@@ -55,8 +56,9 @@ public class HorarioDao {
         try(PreparedStatement ps = cn.prepareStatement(sql)){
           
             
-            ps.setInt(1,ul.getIdPelicula());
-            ps.setInt(2,ul.getIdHorario());
+            ps.setInt(1,ul.getIdHorario());
+            ps.setInt(2,ul.getIdPelicula());
+            
             ps.execute();
         }
     }
@@ -85,7 +87,7 @@ public class HorarioDao {
             while(rs.next()){
                 HorarioLogica ul = new HorarioLogica();
                 ul.setNombrePelicula(rs.getString("nombrePelicula"));
-                ul.setHorario(rs.getDouble("horariopelicula"));
+                ul.setHorario(rs.getString("horariopelicula"));
                 ul.setSala(rs.getString("descripcionsala"));
                 miLista.add(ul);
             }

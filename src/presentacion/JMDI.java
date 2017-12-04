@@ -359,13 +359,19 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionPeliculaActionPerformed
 
     private void jMIGestionHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionHorarioActionPerformed
-        JIFHorario hora=new JIFHorario();
-        jDPMdi.add(hora);
+        JIFHorario hora;
+        try {
+            hora = new JIFHorario();
+                    jDPMdi.add(hora);
         hora.show();
         
         Dimension dimDP=jDPMdi.getSize();
         Dimension dimF=hora.getSize();
         hora.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jMIGestionHorarioActionPerformed
 
     private void jMIGestionTecnologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionTecnologiaActionPerformed
