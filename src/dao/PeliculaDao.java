@@ -5,6 +5,9 @@
  */
 package dao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +15,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.stream.FileImageInputStream;
+import javax.swing.JOptionPane;
 import logica.PeliculaLogica;
+import org.omg.CORBA.portable.InputStream;
 
 /**
  *
@@ -25,15 +31,21 @@ public class PeliculaDao {
     public PeliculaDao() throws SQLException {
         this.cn = Conexion.conectar();
     }
-    public void insertarPelicula(PeliculaLogica el) throws SQLException{
+    public void insertarPelicula(PeliculaLogica el) throws SQLException, FileNotFoundException{
         String sql="{call sp_insertarPelicula(?,?,?,?,?,?,?,?,?)}";
         
         try(PreparedStatement ps=cn.prepareStatement(sql)){
+            if(el.getImagen().equals("")){
+                el.setImagen("src/imagenes/NULLA.png");
+            }
+            File image = new File(el.getImagen());
+            FileInputStream miImagen = new FileInputStream (image);
+            
             ps.setString(1, el.getNombre());
             ps.setString(2, el.getSinopsis());
             ps.setString(3, el.getfLanzamiento());
             ps.setString(4, el.getDuracion());
-            ps.setBlob(5, el.getImagen());
+            ps.setBinaryStream(5, miImagen, (int)image.length());
             ps.setString(6, el.getUrl());
             ps.setInt(7, el.getIdGenero());
             ps.setInt(8, el.getIdClasificacion());
@@ -50,16 +62,28 @@ public class PeliculaDao {
             ps.execute();
         }
     } 
-     public void actualizarPelicula(PeliculaLogica el) throws SQLException{
+     public void actualizarPelicula(PeliculaLogica el) throws SQLException, FileNotFoundException{
         String sql="{call sp_actualizarPelicula(?,?,?,?,?,?,?,?,?,?)}";
         
         try(PreparedStatement ps=cn.prepareStatement(sql)){
+           File image = null;
+           FileInputStream miImagen = null;
+           if(!el.getImagen().equals("")){
+               image = new File(el.getImagen());
+               miImagen = new FileInputStream (image);
+           }
+            
+            
             ps.setInt(1,el.getIdPelicula());
             ps.setString(2, el.getNombre());
             ps.setString(3, el.getSinopsis());
             ps.setString(4, el.getfLanzamiento());
             ps.setString(5, el.getDuracion());
-            ps.setBlob(6, el.getImagen());
+            if(!el.getImagen().equals("")){
+                ps.setBinaryStream(6,miImagen, (int)image.length());
+            }else{
+                ps.setNull(6, java.sql.Types.BLOB);
+            }
             ps.setString(7, el.getUrl());
             ps.setInt(8, el.getIdGenero());
             ps.setInt(9, el.getIdClasificacion());
@@ -175,7 +199,7 @@ public class PeliculaDao {
                 ul.setSinopsis(rs.getString("sinopsis"));
                 ul.setfLanzamiento(rs.getString("lanzamiento"));
                 ul.setDuracion(rs.getString("duracion"));
-                ul.setImagen(rs.getBlob("imagenpelicula"));
+                ul.setImg(rs.getBytes("imagenpelicula"));
                 ul.setUrl(rs.getString("url"));
                 ul.setGenero(rs.getString("generopelicula"));
                 ul.setClasificacion(rs.getString("clasificacion"));

@@ -16,8 +16,17 @@ import java.sql.Blob;
 public class PeliculaLogica {
 
   private int idPelicula,IdGenero,IdClasificacion,IdUsuario;
-  private String nombre,fLanzamiento,sinopsis,genero,clasificacion,duracion,url;
-  private Blob imagen;
+  private String nombre,fLanzamiento,sinopsis,genero,clasificacion,duracion,url, imagen;
+  private byte[] img;
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
 
     public int getIdUsuario() {
         return IdUsuario;
@@ -43,15 +52,14 @@ public class PeliculaLogica {
         this.IdClasificacion = IdClasificacion;
     }
 
-    public Blob getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(Blob imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
- 
-  
+
     public int getIdPelicula() {
         return idPelicula;
     }
