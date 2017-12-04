@@ -642,11 +642,11 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             limpiar();   
             jTASinopsis.setEnabled(false);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al almacenar el empleado: " + e);
+            JOptionPane.showMessageDialog(null, "Error al almacenar la pelicula: " + e);
         }
     }
 //    
-    private void actualizarEmpleado() throws FileNotFoundException{
+    private void actualizarPelicula() throws FileNotFoundException{
         try {
             PeliculaLogica el = new PeliculaLogica();
             PeliculaDao ed = new PeliculaDao();         
@@ -666,7 +666,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             limpiar(); 
             jTASinopsis.setEnabled(false);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el empleado: " + e);
+            JOptionPane.showMessageDialog(null, "Error al actualizar la pelicula: " + e);
         }
     }
     
@@ -679,7 +679,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Registro eliminado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
             limpiar();   
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el empleado: " + e);
+            JOptionPane.showMessageDialog(null, "Error al eliminar la pelicula: " + e);
         }
     }
                  
@@ -732,7 +732,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         boolean estado;
         
         if(jTFCodPelicula.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Ingrese el código de la Pelicula");
+            JOptionPane.showMessageDialog(null, "Ingrese el código de la pelicula");
             jTFCodPelicula.requestFocus();
             estado = false;    
         }else if(jTFNombre.getText().isEmpty()){
@@ -763,6 +763,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jTFDuracion.setText("");
         ubicacion = "";
         jLblPelicula.setIcon(null);
+
    }
     private void investigarCorrelativoPelicula() throws SQLException{
         PeliculaDao ud = new PeliculaDao();
@@ -865,7 +866,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     private void jBtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarActionPerformed
         if(validar() == true){
             try { 
-                actualizarEmpleado();
+                actualizarPelicula();
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -880,7 +881,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnActualizarActionPerformed
 
     private void JMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIEliminarActionPerformed
-       if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar el empleado?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+       if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar la pelicula?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             eliminarPelicula(); 
             jTFBusqueda.setText("");
             try {
