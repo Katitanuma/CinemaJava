@@ -5,12 +5,23 @@
  */
 package presentacion;
 
+import dao.HorarioDao;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Image;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import logica.HorarioLogica;
+
 
 /**
  *
@@ -21,9 +32,12 @@ public class JIFHorario extends javax.swing.JInternalFrame {
     /**
      * Creates new form JIFHorario
      */
-    public JIFHorario() {
+    public JIFHorario() throws SQLException {
         initComponents();
         fondo();
+        llenarComboboxNombrePelicula();
+        llenarComboboxHorarioPelicula();
+        habilitarControles(true,false,false,false,false,true);
     }
     
         public void fondo(){
@@ -37,6 +51,11 @@ public class JIFHorario extends javax.swing.JInternalFrame {
         this.add(fondo, BorderLayout.CENTER);
         this.setSize(getWidth() + 10,fondo.getHeight() + 35);
     }
+        
+    
+        
+        
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,23 +65,27 @@ public class JIFHorario extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMIEditar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMIEliminar = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jRBHorario = new javax.swing.JRadioButton();
         jRBPelicula = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         jTFBusqueda = new javax.swing.JTextField();
         jPanel13 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jBtnNuevo = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jBtnActualizar = new javax.swing.JButton();
+        jBtnGuardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jBtnCancelar = new javax.swing.JButton();
+        jPnlPelicula = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTFHorario = new javax.swing.JTextField();
         jCboPelicula = new javax.swing.JComboBox<>();
+        jCboHorario = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -72,7 +95,26 @@ public class JIFHorario extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTDatos = new javax.swing.JTable();
+        jTblHorario = new javax.swing.JTable();
+
+        jMIEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Restart_30px.png"))); // NOI18N
+        jMIEditar.setText("Editar");
+        jMIEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIEditarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMIEditar);
+        jPopupMenu1.add(jSeparator1);
+
+        jMIEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
+        jMIEliminar.setText("Eliminar");
+        jMIEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIEliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMIEliminar);
 
         setClosable(true);
         setTitle("CinemaEvolution");
@@ -127,22 +169,42 @@ public class JIFHorario extends javax.swing.JInternalFrame {
         jPanel13.setBackground(new java.awt.Color(0, 128, 166));
         jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_1.png"))); // NOI18N
+        jBtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_1.png"))); // NOI18N
+        jBtnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnNuevoActionPerformed(evt);
+            }
+        });
 
         jPanel8.setBackground(new java.awt.Color(0, 128, 166));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update_1.png"))); // NOI18N
+        jBtnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update_1.png"))); // NOI18N
+        jBtnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnActualizarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save_1.png"))); // NOI18N
+        jBtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save_1.png"))); // NOI18N
+        jBtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnGuardarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 1, 26)); // NOI18N
         jLabel1.setText("Horario de Películas");
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel_1.png"))); // NOI18N
+        jBtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel_1.png"))); // NOI18N
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelarActionPerformed(evt);
+            }
+        });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel1.setOpaque(false);
+        jPnlPelicula.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPnlPelicula.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Nombre Película");
@@ -150,26 +212,25 @@ public class JIFHorario extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Horario");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPnlPeliculaLayout = new javax.swing.GroupLayout(jPnlPelicula);
+        jPnlPelicula.setLayout(jPnlPeliculaLayout);
+        jPnlPeliculaLayout.setHorizontalGroup(
+            jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jTFHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jCboPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jCboHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addGroup(jPnlPeliculaLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jCboPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPnlPeliculaLayout.setVerticalGroup(
+            jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -177,7 +238,7 @@ public class JIFHorario extends javax.swing.JInternalFrame {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCboHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -205,7 +266,7 @@ public class JIFHorario extends javax.swing.JInternalFrame {
         jPanel12.setBackground(new java.awt.Color(7, 140, 215));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTDatos.setModel(new javax.swing.table.DefaultTableModel(
+        jTblHorario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -213,7 +274,8 @@ public class JIFHorario extends javax.swing.JInternalFrame {
                 "Nombre Pelicula", "Horario", "Sala"
             }
         ));
-        jScrollPane1.setViewportView(jTDatos);
+        jTblHorario.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(jTblHorario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,16 +309,16 @@ public class JIFHorario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPnlPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(jButton1)
+                        .addComponent(jBtnNuevo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(jBtnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jBtnActualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jBtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(jLabel1)))
@@ -298,16 +360,16 @@ public class JIFHorario extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPnlPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jBtnNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButton4)))
+                                        .addComponent(jBtnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jBtnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jBtnCancelar)))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,18 +398,287 @@ public class JIFHorario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFBusquedaActionPerformed
 
+    private void jMIEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEditarActionPerformed
+        
+        habilitarControles(false, false, true, true,false,true);
+            jTFBusqueda.setText("");
+    }//GEN-LAST:event_jMIEditarActionPerformed
+
+    private void jMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEliminarActionPerformed
+        try {
+            HorarioLogica ul = new HorarioLogica();
+            HorarioDao ud = new HorarioDao();
+            ul.setIdHorario(ud.obtenerIdHorario(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(),0))));
+            
+            
+            ud.eliminarHorario(ul);
+            JOptionPane.showMessageDialog(null, "Registro eliminado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaHorario(0,"");
+            jTFBusqueda.setText("");
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el usuario: " + e);
+        }
+    }//GEN-LAST:event_jMIEliminarActionPerformed
+
+    private void jBtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNuevoActionPerformed
+        habilitarControles(false,true,false,true,true,false);
+        limpiar();
+    }//GEN-LAST:event_jBtnNuevoActionPerformed
+
+    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
+        if(validar()== true){
+        try {
+            HorarioLogica tl = new HorarioLogica();
+            HorarioDao ud = new HorarioDao();
+            
+            
+            tl.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            tl.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
+
+            ud.insertarHorario(tl);
+            JOptionPane.showMessageDialog(null, "Registro insertado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaHorario(0,"");
+            habilitarControles(true, false, false, false, false, true);
+            jCboPelicula.requestFocus();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar la tecnologia de la película: " + e);
+        }
+        }
+    }//GEN-LAST:event_jBtnGuardarActionPerformed
+
+    private void jBtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarActionPerformed
+        if(validar()==true){
+        try {
+          HorarioDao ud = new HorarioDao();
+          HorarioLogica tl = new HorarioLogica();
+          
+            
+            tl.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            tl.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
+          
+          ud.actualizarHorario(tl);
+          
+            JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaHorario(0,"");
+            habilitarControles(true,false,false,false,true,false);
+            jCboPelicula.requestFocus();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: " + e);
+        }
+       }
+    }//GEN-LAST:event_jBtnActualizarActionPerformed
+
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+        
+        if(JOptionPane.showConfirmDialog(rootPane, "¿Está seguro de cancelar el proceso?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            limpiar();
+            habilitarControles(true, false, false, false, true,false);
+            try{
+            llenarTablaHorario(0,"");
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "Error al cancelar el proceso: " + e);
+            }
+        }
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
+
+
+    private void llenarComboboxNombrePelicula() throws SQLException{
+        
+        HorarioDao hd = new HorarioDao();
+        
+        String[] horario = new String[hd.mostrarNombrePelicula().size()];
+        horario = hd.mostrarNombrePelicula().toArray(horario);
+        DefaultComboBoxModel modeloHorario = new DefaultComboBoxModel(horario);
+        jCboPelicula.setModel(modeloHorario);
+        
+    }
+    
+    private void llenarComboboxHorarioPelicula() throws SQLException{
+        
+        HorarioDao hd = new HorarioDao();
+        
+        String[] horario = new String[hd.mostrarHorarioPelicula().size()];
+        horario = hd.mostrarHorarioPelicula().toArray(horario);
+        DefaultComboBoxModel modeloHorario = new DefaultComboBoxModel(horario);
+        jCboHorario.setModel(modeloHorario);
+        
+    }
+    
+    private void llenarTablaHorario(int tipoBusqueda, String filtro) throws SQLException{
+        limpiarTablaHorario();
+        HorarioDao ud = new HorarioDao();
+        List<HorarioLogica> miLista = ud.getListaHorario(tipoBusqueda, filtro);  
+        DefaultTableModel temp = (DefaultTableModel) this.jTblHorario.getModel(); 
+        
+        for(HorarioLogica ul: miLista){ 
+            Object[] fila = new Object[3];   
+            fila[0] = ul.getNombrePelicula();
+            fila[1] = ul.getHorario();
+            fila[2] = ul.getSala();
+            temp.addRow(fila);
+        }   
+    }
+    
+    private void limpiarTablaHorario(){
+        DefaultTableModel dtm = (DefaultTableModel) this.jTblHorario.getModel(); 
+        
+        while (dtm.getRowCount() > 0) {
+            dtm.removeRow(0);
+        }
+    }
+    
+    private void filaSeleccionada() {
+        if (this.jTblHorario.getSelectedRow() != -1) {
+            if (this.jTblHorario.isEnabled() == true) {
+                this.jCboPelicula.setSelectedItem(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(), 0)));
+                this.jCboHorario.setSelectedItem(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(), 1)));
+
+            }
+        } else {
+            limpiar();
+        }
+    }
+    
+    private void limpiar(){
+        jCboPelicula.setSelectedIndex(0);
+        jCboHorario.setSelectedIndex(0);
+        jTFBusqueda.setText("");
+    }
+   
+    
+        private boolean validar(){
+        boolean estado;
+        
+        if(jCboPelicula.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Seleccione una película");
+            jCboPelicula.requestFocus();
+            estado = false;    
+        }else if(jCboHorario.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Ingrese un horario");
+            estado = false;
+        }else{
+            estado = true;
+        }
+        return estado;
+     }
+        
+     private void habilitarPanel(JPanel panel, Boolean habilitar) {
+        panel.setEnabled(habilitar);
+
+        Component[] components = panel.getComponents();
+
+        for (int i = 0; i < components.length; i++) {
+            if (components[i].getClass().getName() == "javax.swing.JPanel") {
+                habilitarPanel((JPanel) components[i], habilitar);
+            }
+            components[i].setEnabled(habilitar);
+        }
+    }
+     
+    private void habilitarControles(boolean nuevo, boolean guardar, boolean actualizar, boolean cancelar, boolean panel, boolean tabla){
+        jBtnNuevo.setEnabled(nuevo);
+        jBtnGuardar.setEnabled(guardar);
+        jBtnActualizar.setEnabled(actualizar);
+        jBtnCancelar.setEnabled(cancelar);
+        jTblHorario.setEnabled(tabla);
+        habilitarPanel(jPnlPelicula, panel);        
+    }
+    
+    
+    private void guardarUsuario(){
+        try {
+            HorarioLogica ul = new HorarioLogica();
+            HorarioDao ud = new HorarioDao();
+            
+            ul.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            ul.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
+            ud.insertarHorario(ul);
+            JOptionPane.showMessageDialog(null, "Registro almacenado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaHorario(0,"");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al almacenar el registro: " + e);
+        }
+    }
+    
+    private void actualizarHorario(){
+        try {
+            HorarioLogica ul = new HorarioLogica();
+            HorarioDao ud = new HorarioDao();
+            
+            ul.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            ul.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
+            ud.actualizarHorario(ul);
+            JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();        
+            llenarTablaHorario(0,"");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el registro: " + e);
+        }
+    }
+    
+    private void eliminarHorario(){
+        try {
+            HorarioLogica ul = new HorarioLogica();
+            HorarioDao ud = new HorarioDao();
+            ul.setIdPelicula(ud.obtenerIdPelicula(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(),0))));
+           ul.setIdHorario(ud.obtenerIdHorario(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(),1))));
+            ud.eliminarHorario(ul);
+            JOptionPane.showMessageDialog(null, "Registro eliminado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+            llenarTablaHorario(0,"");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el horario de la pelicula: " + e);
+        }
+    }
+    
+    private void busquedaUsuario(){
+        if(!jTFBusqueda.getText().equals("")){
+            if(jRBHorario.isSelected() == true){
+                try {
+                    llenarTablaHorario(1, jTFBusqueda.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFHorario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                    llenarTablaHorario(2, jTFBusqueda.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFHorario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }else{
+            try {
+                    llenarTablaHorario(0, "");
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFHorario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+    }
+    
+    
+        
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jBtnActualizar;
+    private javax.swing.JButton jBtnCancelar;
+    private javax.swing.JButton jBtnGuardar;
+    private javax.swing.JButton jBtnNuevo;
+    private javax.swing.JComboBox<String> jCboHorario;
     private javax.swing.JComboBox<String> jCboPelicula;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jMIEditar;
+    private javax.swing.JMenuItem jMIEliminar;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -359,11 +690,13 @@ public class JIFHorario extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPnlPelicula;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JRadioButton jRBHorario;
     private javax.swing.JRadioButton jRBPelicula;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTDatos;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTFBusqueda;
-    private javax.swing.JTextField jTFHorario;
+    private javax.swing.JTable jTblHorario;
     // End of variables declaration//GEN-END:variables
 }

@@ -497,7 +497,7 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
             try{
             llenarTablaPelicula(0,"");
             }catch(SQLException e){
-                JOptionPane.showMessageDialog(null, "Error al actualizar la tabla: " + e);
+                JOptionPane.showMessageDialog(null, "Error al cancelar la tabla: " + e);
             }
         }
     }//GEN-LAST:event_jBtnCancelarActionPerformed
@@ -543,7 +543,7 @@ public class JIFTecnologia extends javax.swing.JInternalFrame {
             jTFBusqueda.setText("");
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminae el usuario: " + e);
+            JOptionPane.showMessageDialog(null, "Error al eliminar el usuario: " + e);
         }
     }//GEN-LAST:event_jMIEliminarActionPerformed
     
