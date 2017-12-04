@@ -128,6 +128,7 @@ public class JIFPeliculaCartelera extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         jBtnActualizar = new javax.swing.JButton();
 
+        jMIEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Restart_30px.png"))); // NOI18N
         jMIEditar.setText("Editar");
         jMIEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,6 +138,7 @@ public class JIFPeliculaCartelera extends javax.swing.JInternalFrame {
         jPopupMenu2.add(jMIEditar);
         jPopupMenu2.add(jSeparator1);
 
+        jMIEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
         jMIEliminar.setText("Eliminar");
         jMIEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

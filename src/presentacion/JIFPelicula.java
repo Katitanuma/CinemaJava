@@ -5,12 +5,22 @@
  */
 package presentacion;
 
+import dao.PeliculaDao;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Image;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import logica.PeliculaLogica;
 
 /**
  *
@@ -20,10 +30,16 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form JIFPelicula
+     * @throws java.sql.SQLException
      */
-    public JIFPelicula() {
+    public JIFPelicula() throws SQLException {
         initComponents();
+        llenarTablaPelicula(0, "");
+        llenarComboBoxClasificacion();
+        llenarComboBoxGenero();
+        habilitarControles(true, false, false, false, false, true);
         fondo();
+        jTASinopsis.setEnabled(false);
     }
     
     public void fondo(){
@@ -46,11 +62,16 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        JMIEditar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        JMIEliminar = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTDatos = new javax.swing.JTable();
+        jTblPelicula = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jBtnNuevo = new javax.swing.JButton();
+        jPnlPelicula = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -58,26 +79,26 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jTFNombre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTADireccion = new javax.swing.JTextArea();
+        jTASinopsis = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTFCorreo2 = new javax.swing.JTextField();
+        jTFlink = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLblPelicula = new javax.swing.JLabel();
         jBtnAgregarImagen = new javax.swing.JButton();
         jBtnQuitarImagen = new javax.swing.JButton();
         jTFCodPelicula = new javax.swing.JTextField();
-        jTFCodPelicula1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton4 = new javax.swing.JButton();
+        jTFDuracion = new javax.swing.JTextField();
+        jCboGenero = new javax.swing.JComboBox<>();
+        jCboClasificacion = new javax.swing.JComboBox<>();
+        jBtnCancelar = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jBtnGuardar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jRBCodPelicula = new javax.swing.JRadioButton();
         jRBNombre = new javax.swing.JRadioButton();
@@ -87,7 +108,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jPanel9 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        jBtnActualizar = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
@@ -97,10 +118,29 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jPanel22 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
 
+        JMIEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Restart_30px.png"))); // NOI18N
+        JMIEditar.setText("Editar");
+        JMIEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMIEditarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(JMIEditar);
+        jPopupMenu1.add(jSeparator1);
+
+        JMIEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Cancel_30px.png"))); // NOI18N
+        JMIEliminar.setText("Eliminar");
+        JMIEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMIEliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(JMIEliminar);
+
         setClosable(true);
         setTitle("CinemaEvolution");
 
-        jTDatos.setModel(new javax.swing.table.DefaultTableModel(
+        jTblPelicula.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -108,15 +148,31 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                 "IdPelícula", "Nombre Película", "Sinopsis", "Lanzamiento", "Duración", "Género", "Clasificación", "URL"
             }
         ));
-        jScrollPane1.setViewportView(jTDatos);
+        jTblPelicula.setComponentPopupMenu(jPopupMenu1);
+        jTblPelicula.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblPeliculaMouseClicked(evt);
+            }
+        });
+        jTblPelicula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTblPeliculaKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTblPelicula);
 
         jPanel5.setBackground(new java.awt.Color(0, 128, 166));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_1.png"))); // NOI18N
+        jBtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_1.png"))); // NOI18N
+        jBtnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnNuevoActionPerformed(evt);
+            }
+        });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel1.setOpaque(false);
+        jPnlPelicula.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPnlPelicula.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Código Película");
@@ -130,9 +186,9 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Sinopsis");
 
-        jTADireccion.setColumns(20);
-        jTADireccion.setRows(5);
-        jScrollPane2.setViewportView(jTADireccion);
+        jTASinopsis.setColumns(20);
+        jTASinopsis.setRows(5);
+        jScrollPane2.setViewportView(jTASinopsis);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Duración");
@@ -152,59 +208,59 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
 
         jBtnQuitarImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/image_delete.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPnlPeliculaLayout = new javax.swing.GroupLayout(jPnlPelicula);
+        jPnlPelicula.setLayout(jPnlPeliculaLayout);
+        jPnlPeliculaLayout.setHorizontalGroup(
+            jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTFCorreo2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTFlink, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCboGenero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPnlPeliculaLayout.createSequentialGroup()
+                                .addComponent(jCboClasificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jTFCodPelicula1))
+                                        .addComponent(jTFDuracion))
                                     .addComponent(jLabel7)))))
                     .addComponent(jLabel8)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPnlPeliculaLayout.createSequentialGroup()
+                        .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTFCodPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jTFLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLblPelicula, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPnlPeliculaLayout.createSequentialGroup()
                                 .addComponent(jBtnAgregarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jBtnQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(16, 16, 16)))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPnlPeliculaLayout.setVerticalGroup(
+            jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(1, 1, 1)
                         .addComponent(jTFCodPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,33 +276,38 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                         .addComponent(jLblPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jBtnAgregarImagen, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jBtnQuitarImagen, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addGap(1, 1, 1)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPnlPeliculaLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(1, 1, 1)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFCodPelicula1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPnlPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCboClasificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel7))
                 .addGap(11, 11, 11)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFCorreo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTFlink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel_1.png"))); // NOI18N
+        jBtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel_1.png"))); // NOI18N
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelarActionPerformed(evt);
+            }
+        });
 
         jPanel7.setBackground(new java.awt.Color(7, 140, 215));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -263,14 +324,22 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 1, 26)); // NOI18N
         jLabel1.setText("Película");
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save_1.png"))); // NOI18N
+        jBtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save_1.png"))); // NOI18N
+        jBtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnGuardarActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda por", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
         jPanel2.setOpaque(false);
 
+        buttonGroup1.add(jRBCodPelicula);
         jRBCodPelicula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRBCodPelicula.setSelected(true);
         jRBCodPelicula.setText("Cod. Película");
 
+        buttonGroup1.add(jRBNombre);
         jRBNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRBNombre.setText("Nombre");
 
@@ -279,6 +348,11 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jTFBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTFBusquedaActionPerformed(evt);
+            }
+        });
+        jTFBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBusquedaKeyReleased(evt);
             }
         });
 
@@ -327,7 +401,12 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update_1.png"))); // NOI18N
+        jBtnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update_1.png"))); // NOI18N
+        jBtnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnActualizarActionPerformed(evt);
+            }
+        });
 
         jPanel16.setBackground(new java.awt.Color(0, 128, 166));
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -394,16 +473,16 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPnlPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(77, 77, 77)
-                                .addComponent(jButton1)
+                                .addComponent(jBtnNuevo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
+                                .addComponent(jBtnGuardar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
+                                .addComponent(jBtnActualizar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jBtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -453,34 +532,322 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(93, 93, 93))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPnlPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton4)))
+                                .addComponent(jBtnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jBtnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jBtnCancelar)))
                         .addGap(32, 32, 32))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void habilitarControles(boolean nuevo, boolean guardar, boolean actualizar, boolean cancelar, boolean panel, boolean tabla){
+        jBtnNuevo.setEnabled(nuevo);
+        jBtnGuardar.setEnabled(guardar);
+        jBtnActualizar.setEnabled(actualizar);
+        jBtnCancelar.setEnabled(cancelar);
+        jTblPelicula.setEnabled(tabla);
+        habilitarPanel(jPnlPelicula, panel);        
+    }   
+    private void habilitarPanel(JPanel panel, Boolean habilitar) {
+        panel.setEnabled(habilitar);
+
+        Component[] components = panel.getComponents();
+
+        for (int i = 0; i < components.length; i++) {
+            if (components[i].getClass().getName() == "javax.swing.JPanel") {
+                habilitarPanel((JPanel) components[i], habilitar);
+            }
+            components[i].setEnabled(habilitar);
+        }
+    }
+    private void llenarComboBoxClasificacion() throws SQLException{
+        PeliculaDao ud = new PeliculaDao();
+        String[] pelicula = new String[ud.mostrarClasificacion().size()];
+        pelicula = ud.mostrarClasificacion().toArray(pelicula);
+        DefaultComboBoxModel modeloClasificacion = new DefaultComboBoxModel(pelicula);
+        jCboClasificacion.setModel(modeloClasificacion);
+    }
+     
+    private void llenarComboBoxGenero() throws SQLException{
+        PeliculaDao ud = new PeliculaDao();
+        String[] genero = new String[ud.mostrarGenero().size()];
+        genero = ud.mostrarGenero().toArray(genero);
+        DefaultComboBoxModel modeloGenero = new DefaultComboBoxModel(genero);
+        jCboGenero.setModel(modeloGenero);
+    }
+    private void limpiarTablaUsuario(){
+        DefaultTableModel dtm = (DefaultTableModel) this.jTblPelicula.getModel(); 
+        
+        while (dtm.getRowCount() > 0) {
+            dtm.removeRow(0);
+        }
+    }      
+    private void guardarPelicula(){
+        JMDI jmdi=new JMDI();
+        
+        try {
+            PeliculaLogica el = new PeliculaLogica();
+            PeliculaDao ed = new PeliculaDao();
+            
+            el.setNombre(this.jTFNombre.getText().trim());
+            el.setfLanzamiento(this.jTFLanzamiento.getText().trim());
+            el.setSinopsis(this.jTASinopsis.getText().trim());
+            el.setDuracion(this.jTFDuracion.getText().trim());
+            el.setUrl(this.jTFlink.getText().trim());
+            el.setIdGenero(ed.obtenerIdGenero(jCboGenero.getSelectedItem().toString()));
+            el.setIdClasificacion(ed.obtenerIdClasificacion(jCboClasificacion.getSelectedItem().toString()));
+            el.setIdUsuario(JMDI.idUsuario);
+            ed.insertarPelicula(el);
+            JOptionPane.showMessageDialog(null, "Registro almacenado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();   
+            jTASinopsis.setEnabled(false);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al almacenar el empleado: " + e);
+        }
+    }
+//    
+    private void actualizarEmpleado(){
+        try {
+            PeliculaLogica el = new PeliculaLogica();
+            PeliculaDao ed = new PeliculaDao();         
+            
+            el.setIdPelicula(Integer.parseInt(this.jTFCodPelicula.getText().trim()));
+            el.setNombre(this.jTFNombre.getText().trim());
+            el.setfLanzamiento(this.jTFLanzamiento.getText().trim());
+            el.setSinopsis(this.jTASinopsis.getText().trim());
+            el.setDuracion(this.jTFDuracion.getText().trim());
+            el.setUrl(this.jTFlink.getText().trim());
+            el.setIdGenero(ed.obtenerIdGenero(jCboGenero.getSelectedItem().toString()));
+            el.setIdClasificacion(ed.obtenerIdClasificacion(jCboClasificacion.getSelectedItem().toString()));
+            el.setIdUsuario(JMDI.idUsuario);
+            ed.actualizarPelicula(el);
+            JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar(); 
+            jTASinopsis.setEnabled(false);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el empleado: " + e);
+        }
+    }
+    
+    private void eliminarPelicula(){
+        try {
+            PeliculaLogica el = new PeliculaLogica();
+            PeliculaDao ed = new PeliculaDao();            
+            el.setIdPelicula(Integer.parseInt(this.jTFCodPelicula.getText().trim()));
+            ed.eliminarPelicula(el);
+            JOptionPane.showMessageDialog(null, "Registro eliminado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            limpiar();   
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el empleado: " + e);
+        }
+    }
+                 
+    private void busquedaPelicula(){
+        if(!jTFBusqueda.getText().equals("")){
+            if(jRBCodPelicula.isSelected() == true){
+                try {
+                    llenarTablaPelicula(1, jTFBusqueda.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                    llenarTablaPelicula(2, jTFBusqueda.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }else{
+            try {
+                    llenarTablaPelicula(0, "");
+                } catch (SQLException ex) {
+                    Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+    }
+    private void llenarTablaPelicula(int tipoBusqueda, String filtro) throws SQLException{
+        limpiarTablaUsuario();
+        PeliculaDao ud = new PeliculaDao();
+        List<PeliculaLogica> miLista = ud.getListaPelicula(tipoBusqueda, filtro);  
+        DefaultTableModel temp = (DefaultTableModel) this.jTblPelicula.getModel(); 
+        
+        for(PeliculaLogica ul: miLista){ 
+            Object[] fila = new Object[9];   
+            fila[0] = ul.getIdPelicula();
+            fila[1] = ul.getNombre();
+            fila[2] = ul.getSinopsis();
+            fila[3] = ul.getfLanzamiento();
+            fila[4] = ul.getDuracion();
+            fila[5] = ul.getGenero();
+            fila[6] = ul.getClasificacion();  
+            fila[7] = ul.getUrl();
+            fila[8] = ul.getImagen();
+            
+            temp.addRow(fila);
+        }   
+      
+    }    
+    private boolean validar(){
+        boolean estado;
+        
+        if(jTFCodPelicula.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese el código de la Pelicula");
+            jTFCodPelicula.requestFocus();
+            estado = false;    
+        }else if(jTFNombre.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre de la pelicula");
+            jTFNombre.requestFocus();
+            estado = false;    
+        }else if(jTFLanzamiento.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese el lanzmiento de la pelicula");
+            jTFLanzamiento.requestFocus();
+            estado = false;    
+        }else if(jTASinopsis.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese la sinopsis de la pelicula");
+            jTASinopsis.requestFocus();
+            estado = false; 
+        }else{
+            estado = true;
+        }
+        return estado;
+    }
+    private void limpiar(){
+        jTFCodPelicula.setText("");
+        jTFNombre.setText("");
+        jTFLanzamiento.setText("");
+        jTASinopsis.setText("");
+        jCboGenero.setSelectedIndex(0);
+        jCboClasificacion.setSelectedIndex(0);
+        jTFlink.setText("");
+        jTFDuracion.setText("");
+   }
+    private void investigarCorrelativoPelicula() throws SQLException{
+       PeliculaDao ud = new PeliculaDao();
+        PeliculaLogica ul = new PeliculaLogica();
+        ul.setIdPelicula(ud.autoIncrementarPelicula());
+        jTFCodPelicula.setText(String.valueOf(ul.getIdPelicula()));
+    }
+    private void filaSeleccionada() {
+        if (this.jTblPelicula.getSelectedRow() != -1) {
+            if (this.jTblPelicula.isEnabled() == true) {
+                this.jTFCodPelicula.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 0)));
+                this.jTFNombre.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 1)));
+                this.jTFLanzamiento.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 3)));
+                this.jTASinopsis.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 2)));
+                this.jCboGenero.setSelectedItem(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 5)));
+                this.jCboClasificacion.setSelectedItem(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 6)));
+                this.jTFDuracion.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 4)));
+                this.jTFlink.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 7)));        
+                
+            }
+        } else {
+            limpiar();
+        }
+    }
     private void jTFBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFBusquedaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFBusquedaActionPerformed
 
+    private void jTFBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBusquedaKeyReleased
+        busquedaPelicula();
+    }//GEN-LAST:event_jTFBusquedaKeyReleased
 
+    private void jBtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNuevoActionPerformed
+        habilitarControles(false, true, false, true, true, false);
+        limpiar();
+        try {
+            investigarCorrelativoPelicula();
+        } catch (SQLException ex) {
+            Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBtnNuevoActionPerformed
+
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+       if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de cancelar el proceso?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            limpiar();
+            habilitarControles(true, false, false, false, false, true);
+            jTASinopsis.setEnabled(false);
+            try {
+                llenarTablaPelicula(0,"");
+            } catch (SQLException ex) {
+                Logger.getLogger(JIFEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jRBCodPelicula.setSelected(true);
+        }
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
+
+    private void JMIEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIEditarActionPerformed
+      jTASinopsis.setEnabled(true);
+      filaSeleccionada();
+      habilitarControles(false, false, true, true, true, false); 
+      jTFBusqueda.setText("");
+       
+    }//GEN-LAST:event_JMIEditarActionPerformed
+
+    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
+       if(validar()==true){
+          guardarPelicula(); 
+          habilitarControles(true, false, false, false, false, true);
+           try {
+               llenarTablaPelicula(0, "");
+           } catch (SQLException ex) {
+               Logger.getLogger(JIFPelicula.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }       
+    }//GEN-LAST:event_jBtnGuardarActionPerformed
+
+    private void jBtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarActionPerformed
+        if(validar() == true){
+            actualizarEmpleado(); 
+            try {
+                llenarTablaPelicula(0, "");
+            } catch (SQLException ex) {
+                Logger.getLogger(JIFCartelera.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            habilitarControles(true, false, false, false, false, true); 
+            jRBCodPelicula.setSelected(true);
+        }
+    }//GEN-LAST:event_jBtnActualizarActionPerformed
+
+    private void jTblPeliculaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblPeliculaKeyReleased
+        filaSeleccionada();
+    }//GEN-LAST:event_jTblPeliculaKeyReleased
+
+    private void JMIEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIEliminarActionPerformed
+       if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar el empleado?","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            eliminarPelicula(); 
+            jTFBusqueda.setText("");
+            try {
+                llenarTablaPelicula(0, "");
+            } catch (SQLException ex) {
+                Logger.getLogger(JIFEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_JMIEliminarActionPerformed
+
+    private void jTblPeliculaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblPeliculaMouseClicked
+        filaSeleccionada();
+    }//GEN-LAST:event_jTblPeliculaMouseClicked
+
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem JMIEditar;
+    private javax.swing.JMenuItem JMIEliminar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jBtnActualizar;
     private javax.swing.JButton jBtnAgregarImagen;
+    private javax.swing.JButton jBtnCancelar;
+    private javax.swing.JButton jBtnGuardar;
+    private javax.swing.JButton jBtnNuevo;
     private javax.swing.JButton jBtnQuitarImagen;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jCboClasificacion;
+    private javax.swing.JComboBox<String> jCboGenero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -492,7 +859,6 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLblPelicula;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -511,17 +877,20 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPnlPelicula;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JRadioButton jRBCodPelicula;
     private javax.swing.JRadioButton jRBNombre;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTADireccion;
-    private javax.swing.JTable jTDatos;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTextArea jTASinopsis;
     private javax.swing.JTextField jTFBusqueda;
     private javax.swing.JTextField jTFCodPelicula;
-    private javax.swing.JTextField jTFCodPelicula1;
-    private javax.swing.JTextField jTFCorreo2;
+    private javax.swing.JTextField jTFDuracion;
     private javax.swing.JTextField jTFLanzamiento;
     private javax.swing.JTextField jTFNombre;
+    private javax.swing.JTextField jTFlink;
+    private javax.swing.JTable jTblPelicula;
     // End of variables declaration//GEN-END:variables
 }

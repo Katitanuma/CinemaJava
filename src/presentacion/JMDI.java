@@ -345,13 +345,17 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionCarteleraActionPerformed
 
     private void jMIGestionPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionPeliculaActionPerformed
-        JIFPelicula peli=new JIFPelicula();
-        jDPMdi.add(peli);
-        peli.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=peli.getSize();
-        peli.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        try {
+            JIFPelicula peli=new JIFPelicula();
+            jDPMdi.add(peli);
+            peli.show();
+            
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=peli.getSize();
+            peli.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMIGestionPeliculaActionPerformed
 
     private void jMIGestionHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionHorarioActionPerformed
@@ -379,13 +383,17 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionTecnologiaActionPerformed
 
     private void jMIGestionCartePeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionCartePeliActionPerformed
-        JIFPeliculaCartelera pc=new JIFPeliculaCartelera();
-        jDPMdi.add(pc);
-        pc.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=pc.getSize();
-        pc.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        try {
+            JIFPeliculaCartelera pc=new JIFPeliculaCartelera();
+            jDPMdi.add(pc);
+            pc.show();
+            
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=pc.getSize();
+            pc.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMIGestionCartePeliActionPerformed
 
     private void jMIVisualizarEstrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIVisualizarEstrenoActionPerformed
