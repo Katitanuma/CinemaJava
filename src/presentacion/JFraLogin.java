@@ -70,7 +70,6 @@ public class JFraLogin extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(36, 47, 65));
         setUndecorated(true);
         setResizable(false);
@@ -249,16 +248,37 @@ public class JFraLogin extends javax.swing.JFrame {
         if(jTFUsuario.getText().length()>0 && jPFContrasena.getText().length()>0 ){
             LoginLogica ll = new LoginLogica();
             try {
+                
                 LoginDao ld = new LoginDao();
                 ll.setUsuario(jTFUsuario.getText());
                 ll.setContrasena(jPFContrasena.getText());
-                ll.setIdUsuario(ld.iniciarSesion(ll));
+                String tipousuario;
+                String[] valor = ld.iniciarSesion(ll).split("-");
+                ll.setIdUsuario(Integer.parseInt(valor[0]));
+                tipousuario = valor[1];
                 
                 if(ll.getIdUsuario() !=0){
-                    JMDI miMdi = new JMDI();
-                    miMdi.idUsuario = ll.getIdUsuario();
-                    miMdi.show();
-                    setVisible(false);
+                    if(tipousuario.equals("Administrador")){
+                         JMDI miMdi = new JMDI();
+                         miMdi.idUsuario = ll.getIdUsuario();
+                         miMdi.jMLog.setVisible(true);
+                         miMdi.show();
+                         setVisible(false);
+                    }else{
+                         JMDI miMdi = new JMDI();
+                         miMdi.idUsuario = ll.getIdUsuario();
+                         miMdi.jMLog.setVisible(false);
+                         miMdi.jMIGestionUsuario.setVisible(false);
+                         miMdi.jMCartelera.setVisible(false);
+                         miMdi.jMPelicula.setVisible(false);
+                         miMdi.jMHorario.setVisible(false);
+                         miMdi.jMTecnologia.setVisible(false);
+                         miMdi.jMCarteleraPelicula.setVisible(false);
+                         miMdi.jMEmpleado.setVisible(false);
+                         miMdi.show();
+                         setVisible(false);
+                    }
+                   
                 }else{
                     JOptionPane.showMessageDialog(null, "Usuario o Contrasena incorrecto","Cinema Evolution",JOptionPane.ERROR_MESSAGE);
                 }

@@ -461,17 +461,25 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIVisualizarReportesActionPerformed
 
     private void jMIVisualizarLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIVisualizarLogActionPerformed
-        JIFLogAuditoria log=new JIFLogAuditoria();
-        jDPMdi.add(log);
-        log.show();
-        
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=log.getSize();
-        log.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        JIFLogAuditoria log;
+        try {
+            log = new JIFLogAuditoria();
+            jDPMdi.add(log);
+            log.show();
+
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=log.getSize();
+            log.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
     }//GEN-LAST:event_jMIVisualizarLogActionPerformed
 
     private void jMICambiarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMICambiarUsuarioActionPerformed
-        setVisible(false);      
+        setVisible(false);
+        JFraLogin miFormulario = new JFraLogin();
+        miFormulario.show();
     }//GEN-LAST:event_jMICambiarUsuarioActionPerformed
 
     /**
@@ -511,12 +519,12 @@ public class JMDI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDPMdi;
-    private javax.swing.JMenu jMCartelera;
-    private javax.swing.JMenu jMCarteleraPelicula;
-    private javax.swing.JMenu jMEmpleado;
+    public javax.swing.JMenu jMCartelera;
+    public javax.swing.JMenu jMCarteleraPelicula;
+    public javax.swing.JMenu jMEmpleado;
     private javax.swing.JMenu jMEstrenos;
     private javax.swing.JMenu jMFactura;
-    private javax.swing.JMenu jMHorario;
+    public javax.swing.JMenu jMHorario;
     private javax.swing.JMenuItem jMICambiarUsuario;
     private javax.swing.JMenuItem jMIGestionCartePeli;
     private javax.swing.JMenuItem jMIGestionCartelera;
@@ -525,15 +533,15 @@ public class JMDI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIGestionHorario;
     private javax.swing.JMenuItem jMIGestionPelicula;
     private javax.swing.JMenuItem jMIGestionTecnologia;
-    private javax.swing.JMenuItem jMIGestionUsuario;
+    public javax.swing.JMenuItem jMIGestionUsuario;
     private javax.swing.JMenuItem jMIVisualizarEstreno;
     private javax.swing.JMenuItem jMIVisualizarLog;
     private javax.swing.JMenuItem jMIVisualizarReportes;
-    private javax.swing.JMenu jMLog;
-    private javax.swing.JMenu jMPelicula;
+    public javax.swing.JMenu jMLog;
+    public javax.swing.JMenu jMPelicula;
     private javax.swing.JMenu jMReportes;
-    private javax.swing.JMenu jMTecnologia;
-    private javax.swing.JMenu jMUsuario;
+    public javax.swing.JMenu jMTecnologia;
+    public javax.swing.JMenu jMUsuario;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 

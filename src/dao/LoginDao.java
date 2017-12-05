@@ -18,8 +18,8 @@ public class LoginDao {
         this.cn = Conexion.conectar();
     }
     
-     public int iniciarSesion(LoginLogica ll) throws SQLException{
-        String sql = "{call sp_iniciarSesion(?,?)}";
+     public String iniciarSesion(LoginLogica ll) throws SQLException{
+        String sql = "{call sp_iniciarSesion(?,?)}", tipoUsuario = " ";
         int idUsuario = 0;
         
         try(PreparedStatement ps = cn.prepareStatement(sql)){     
@@ -29,9 +29,10 @@ public class LoginDao {
                  
             if(rs.next()){      
                 idUsuario = rs.getInt("idusuario");
+                tipoUsuario = rs.getString("tipousuario");
             }
             
         }
-        return idUsuario;
+        return (String.valueOf(idUsuario) + "-" + tipoUsuario);
     }
 }
