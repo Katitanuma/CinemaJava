@@ -5,16 +5,22 @@
  */
 package presentacion;
 
+import dao.Conexion;
 import dao.FacturaDao;
 import dao.TecnologiaDao;
 import dao.UsuarioDao;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Image;
+import java.net.URLDecoder;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +32,11 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import logica.FacturaLogica;
 import logica.UsuarioLogica;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -157,6 +168,9 @@ public class JIFFactura extends javax.swing.JInternalFrame {
             fl.setIdUsuario(JMDI.idUsuario);
             fd.insertarFactura(fl);
             JOptionPane.showMessageDialog(null, "Registro almacenado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.showConfirmDialog(rootPane, "¿Desea visualizar la factura","Cinema Evolution",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                reporteFactura(String.valueOf(jTFIdFactura.getText()));
+            }
             limpiar();
             
         } catch (SQLException e) {
@@ -906,9 +920,30 @@ public class JIFFactura extends javax.swing.JInternalFrame {
                 Logger.getLogger(JIFUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
             habilitarControles(true, false, false, false, true);
+            
         }
     }//GEN-LAST:event_jBtnGuardarActionPerformed
-
+    private void reporteFactura(String id){
+        String path = "";
+        try {
+            path = getClass().getResource("/reportes/RptFactura.jasper").getPath();
+            path = URLDecoder.decode(path,"UTF-8");
+            Connection cn = Conexion.conectar();
+            Map parametros = new HashMap();  
+            parametros.put("pIdFactura",Integer.parseInt(id));
+         
+            JasperReport reporte = (JasperReport)JRLoader.loadObject(path);
+            JasperPrint imprimir = JasperFillManager.fillReport(reporte,parametros,cn);
+            JasperViewer visor = new JasperViewer(imprimir,false);
+          
+            visor.setTitle("Reporte de factura de venta de boletos");
+            visor.setExtendedState(MAXIMIZED_BOTH);
+            visor.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al Mostrar el reporte: "+e.getMessage());
+        }
+    }
     private void jTFBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBusquedaKeyReleased
         busquedaFactura();
     }//GEN-LAST:event_jTFBusquedaKeyReleased

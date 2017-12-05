@@ -68,12 +68,16 @@ public class PeliculaDao {
         try(PreparedStatement ps=cn.prepareStatement(sql)){
            File image = null;
            FileInputStream miImagen = null;
-           if(!el.getImagen().equals("")){
+           
+           if(el.getImagen().equals("abc")){
+               el.setImagen("src/imagenes/NULLA.png");
+               image = new File(el.getImagen());
+               miImagen = new FileInputStream (image);
+           }else if(!el.getImagen().equals("")){
                image = new File(el.getImagen());
                miImagen = new FileInputStream (image);
            }
-            
-            
+             
             ps.setInt(1,el.getIdPelicula());
             ps.setString(2, el.getNombre());
             ps.setString(3, el.getSinopsis());
@@ -81,7 +85,7 @@ public class PeliculaDao {
             ps.setString(5, el.getDuracion());
             if(!el.getImagen().equals("")){
                 ps.setBinaryStream(6,miImagen, (int)image.length());
-            }else{
+            }else if(el.getImagen().equals("")){
                 ps.setNull(6, java.sql.Types.BLOB);
             }
             ps.setString(7, el.getUrl());

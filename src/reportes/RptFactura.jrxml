@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a0d46006-39ec-4355-a82a-637c6f643488">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pIdFactura" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[7]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[{call sp_ReporteFactura($P{pIdFactura})}]]>
+	</queryString>
+	<field name="IdFactura" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NombrePelicula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TipoTecnologia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CantidadBoleto" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PrecioBoleto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="isv" class="java.math.BigDecimal"/>
+	<field name="Total" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="252" splitType="Stretch">
+			<image>
+				<reportElement x="80" y="0" width="80" height="48" uuid="f8194ddb-cf65-4e96-8c41-10d3f36aa921"/>
+				<imageExpression><![CDATA["C:\\Users\\usuario\\Desktop\\estrella.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="170" y="14" width="217" height="34" uuid="98525366-ddb1-4ef6-ad16-bdabbe76baee"/>
+				<textElement>
+					<font fontName="Arial" size="24" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Factura de boletos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="48" width="102" height="20" uuid="39564b3a-56c2-49c2-9b53-4d543c36040a"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cinema Evolution]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="88" width="113" height="20" uuid="549c65ee-3f1b-4179-99f9-1d822d5b42d7"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código de Factura:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="108" width="113" height="20" uuid="cb8d2195-2d80-4e00-a67c-fd5cd46b2e1e"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="128" width="113" height="20" uuid="0e77ac01-b6e1-4be0-ab6a-623a65f0ca7b"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pelicula:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="148" width="113" height="20" uuid="51e0cec1-7d22-44c0-b585-10e5258495c5"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tecnología:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="168" width="113" height="20" uuid="cf34754c-a6c3-49cc-8c41-1ff06bd737ce"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Boletos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="188" width="113" height="20" uuid="539939a5-4254-49a4-a639-2023077b9e66"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio Boletos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="208" width="113" height="20" uuid="d79f2694-07ca-4b38-b569-70d7ad3bd097"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Impuesto(15%):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="228" width="113" height="20" uuid="7fa4b84b-e294-4842-93a7-c44e98e04a31"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="211" y="88" width="262" height="20" uuid="e65c61b6-1dbd-469b-83ed-0832706a0740"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IdFactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="211" y="108" width="262" height="20" uuid="b560c813-6248-4618-91aa-40e3ed5b3133"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="128" width="262" height="20" uuid="4e95c378-430e-40eb-b12e-3bbe1b96b8e4"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NombrePelicula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="148" width="262" height="20" uuid="71c3d816-6410-444c-8256-658f9c94930d"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TipoTecnologia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="168" width="262" height="20" uuid="d716c64c-fdff-4d7f-bf0d-41460c6ec173"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CantidadBoleto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="211" y="188" width="262" height="20" uuid="2d25cc06-2b72-4132-a2df-35d7e199f0fd"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PrecioBoleto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="211" y="208" width="262" height="20" uuid="e33fafcb-20a7-4fa7-8dc0-949f140ecb06"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{isv}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="211" y="228" width="262" height="20" uuid="729c5394-cb39-4c0e-a151-76af932859db"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="81" y="88" width="392" height="1" uuid="9b31d1c5-4157-4b84-b9c5-50af16aa5709"/>
+			</line>
+			<line>
+				<reportElement x="81" y="108" width="392" height="1" uuid="80437d23-6de6-431a-abf9-cd1a4dbd9f7f"/>
+			</line>
+			<line>
+				<reportElement x="81" y="128" width="392" height="1" uuid="20fbe14d-368f-47c9-a3fe-e31a5327e752"/>
+			</line>
+			<line>
+				<reportElement x="81" y="147" width="392" height="1" uuid="45a87acb-5a36-4a0a-93ea-62e91172c7b3"/>
+			</line>
+			<line>
+				<reportElement x="81" y="168" width="392" height="1" uuid="d095766b-ca1a-4eab-af60-bf404fed3082"/>
+			</line>
+			<line>
+				<reportElement x="81" y="187" width="392" height="1" uuid="39906ccc-99d0-4f5b-8ee8-8d87e2c3f0e7"/>
+			</line>
+			<line>
+				<reportElement x="81" y="207" width="392" height="1" uuid="5fa4b06f-c64a-4448-a193-123ddfe8056a"/>
+			</line>
+			<line>
+				<reportElement x="81" y="227" width="392" height="1" uuid="7a6bba65-e60d-43d8-a438-d5b0e4a9131d"/>
+			</line>
+			<line>
+				<reportElement x="81" y="247" width="392" height="1" uuid="70711ff1-85c3-4dbf-8ed1-1e184cc4369d"/>
+			</line>
+			<line>
+				<reportElement x="473" y="90" width="1" height="157" uuid="a28e9c8c-9302-43be-a7d4-8e2bf7565827"/>
+			</line>
+			<line>
+				<reportElement x="194" y="89" width="1" height="157" uuid="c72f9b64-fc85-47c4-b1b3-ee04d5f36221"/>
+			</line>
+			<line>
+				<reportElement x="80" y="89" width="1" height="157" uuid="33c56a79-3e27-4fe6-9fab-de1aba63d060"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

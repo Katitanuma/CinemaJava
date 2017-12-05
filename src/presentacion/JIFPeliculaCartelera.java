@@ -470,7 +470,8 @@ public class JIFPeliculaCartelera extends javax.swing.JInternalFrame {
             ul.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));      
             ud.actualizarCarteleraPelicula(ul);
             JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
-            limpiar();            
+            limpiar();       
+            llenarTablaCarteleraPelicula(0,"");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: " + e);
         }
@@ -521,6 +522,7 @@ public class JIFPeliculaCartelera extends javax.swing.JInternalFrame {
 
     private void jBtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarActionPerformed
        actualizarCarteleraPelicula();
+        habilitarControles(true, false, false, false, false, true);
     }//GEN-LAST:event_jBtnActualizarActionPerformed
 
     private void jMIEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEditarActionPerformed

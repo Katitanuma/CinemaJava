@@ -258,6 +258,7 @@ public class JFraLogin extends javax.swing.JFrame {
                     JMDI miMdi = new JMDI();
                     miMdi.idUsuario = ll.getIdUsuario();
                     miMdi.show();
+                    setVisible(false);
                 }else{
                     JOptionPane.showMessageDialog(null, "Usuario o Contrasena incorrecto","Cinema Evolution",JOptionPane.ERROR_MESSAGE);
                 }

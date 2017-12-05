@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="94b3739e-a97e-4e36-b4f5-3228b80fd5f1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pMes" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[12]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pAno" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2017]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[{call sp_ReporteIngresoMensual($P{pMes},$P{pAno})}]]>
+	</queryString>
+	<field name="Fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NombrePelicula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cantidad de Boleto" class="java.math.BigDecimal"/>
+	<field name="Ingreso" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="117" y="17" width="349" height="34" uuid="50d72290-996b-4722-b12b-8478f80c3bf9"/>
+				<textElement>
+					<font fontName="Arial" size="24" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de ingresos mesuales]]></text>
+			</staticText>
+			<image>
+				<reportElement x="36" y="3" width="80" height="48" uuid="138ea6bc-7c05-47e2-8240-3989b3e45a17"/>
+				<imageExpression><![CDATA["C:\\Users\\usuario\\Desktop\\estrella.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="229" y="51" width="102" height="20" uuid="bdbb2ab6-e79a-4582-868c-d46b60885037"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cinema Evolution]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="25" width="555" height="1" uuid="e5e3438d-2d2b-427d-91a4-23486bfcba02"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="1e43c58f-b9d7-4efa-b917-908c52419fe9"/>
+			</line>
+			<staticText>
+				<reportElement x="445" y="3" width="113" height="20" uuid="9ec6af55-3051-495e-af24-610b607b8338"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="3" width="113" height="20" uuid="938314e1-9806-46c2-9852-2e2a3d5ba835"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Boletos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="3" width="113" height="20" uuid="f016371e-8dfd-466a-b685-08d8a2a9c19a"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="3" width="215" height="20" uuid="0b8c1bdc-194e-4933-898d-d0f3f6e6e126"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pelicula]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="24" width="555" height="1" uuid="30ce73d4-2792-4beb-9c9d-ab02a0af0ca0"/>
+			</line>
+			<textField>
+				<reportElement x="3" y="4" width="112" height="20" uuid="df4b8429-c517-48b7-8299-89b10a4ed839"/>
+				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="4" width="214" height="20" uuid="b3582c00-0626-4cfd-b30f-b66d28e2de71"/>
+				<textFieldExpression><![CDATA[$F{NombrePelicula}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="444" y="4" width="113" height="20" uuid="e3d8d3bf-cd63-40a4-8fd2-07dbbf1f9f2b"/>
+				<textFieldExpression><![CDATA[$F{Ingreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="4" width="113" height="20" uuid="f794c811-1aa8-4f32-a6a6-d55107848900"/>
+				<textFieldExpression><![CDATA[$F{Cantidad de Boleto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

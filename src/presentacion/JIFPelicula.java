@@ -166,9 +166,16 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                 "IdPelícula", "Nombre Película", "Sinopsis", "Lanzamiento", "Duración", "Género", "Clasificación", "URL", "Imagen"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Byte.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -241,6 +248,8 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
                 jBtnQuitarImagenActionPerformed(evt);
             }
         });
+
+        jTFCodPelicula.setEditable(false);
 
         javax.swing.GroupLayout jPnlPeliculaLayout = new javax.swing.GroupLayout(jPnlPelicula);
         jPnlPelicula.setLayout(jPnlPeliculaLayout);
@@ -726,6 +735,9 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
             
             temp.addRow(fila);
         }   
+        jTblPelicula.getColumnModel().getColumn(8).setMinWidth(0);
+        jTblPelicula.getColumnModel().getColumn(8).setMaxWidth(0);
+        jTblPelicula.getColumnModel().getColumn(8).setPreferredWidth(0);
       
     }    
     private boolean validar(){
@@ -774,6 +786,7 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     private void filaSeleccionada() throws UnsupportedEncodingException, IOException {
         if (this.jTblPelicula.getSelectedRow() != -1) {
             if (this.jTblPelicula.isEnabled() == true) {
+                ubicacion = "";
                 this.jTFCodPelicula.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 0)));
                 this.jTFNombre.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 1)));
                 this.jTFLanzamiento.setText(String.valueOf(this.jTblPelicula.getValueAt(jTblPelicula.getSelectedRow(), 3)));
@@ -929,8 +942,14 @@ public class JIFPelicula extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnAgregarImagenActionPerformed
 
     private void jBtnQuitarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnQuitarImagenActionPerformed
-        ubicacion = "";
-        jLblPelicula.setIcon(null);
+        if(jBtnGuardar.isEnabled() == false){
+             ubicacion = "abc";
+             jLblPelicula.setIcon(null);
+        }else{
+             ubicacion = "";
+             jLblPelicula.setIcon(null);
+        }
+       
     }//GEN-LAST:event_jBtnQuitarImagenActionPerformed
 
     private void jTblPeliculaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblPeliculaMouseReleased

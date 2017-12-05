@@ -5,12 +5,28 @@
  */
 package presentacion;
 
+import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
+import com.toedter.calendar.JDateChooser;
+import dao.Conexion;
 import java.awt.BorderLayout;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Image;
+import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -79,6 +95,11 @@ public class JIFReportes extends javax.swing.JInternalFrame {
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/rm150.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Mensual");
@@ -143,6 +164,11 @@ public class JIFReportes extends javax.swing.JInternalFrame {
         jPanel9.setBackground(new java.awt.Color(0, 204, 153));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/150rt.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -174,6 +200,11 @@ public class JIFReportes extends javax.swing.JInternalFrame {
         jPanel14.setBackground(new java.awt.Color(0, 153, 153));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/150.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -206,6 +237,11 @@ public class JIFReportes extends javax.swing.JInternalFrame {
         jPanel15.setBackground(new java.awt.Color(0, 204, 153));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/rti150.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Tickets");
@@ -352,6 +388,111 @@ public class JIFReportes extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JDateChooser jd = new JDateChooser();
+        String message ="Seleccione la fecha:\n";
+        Object[] params = {message,jd};
+        JOptionPane.showConfirmDialog(null,params,"Reporte Diario", JOptionPane.PLAIN_MESSAGE);
+        String s="";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        s=sdf.format(((JDateChooser)params[1]).getDate());
+        String path = "";
+        try {
+            path = getClass().getResource("/reportes/RptIngresoDiario.jasper").getPath();
+            path = URLDecoder.decode(path,"UTF-8");
+            Connection cn = Conexion.conectar();
+            Map parametros = new HashMap();  
+            parametros.put("pFecha",s );
+          
+            JasperReport reporte = (JasperReport)JRLoader.loadObject(path);
+            JasperPrint imprimir = JasperFillManager.fillReport(reporte,parametros,cn);
+            JasperViewer visor = new JasperViewer(imprimir,false);
+          
+            visor.setTitle("Reporte de ingresos de venta de boletos");
+            visor.setExtendedState(MAXIMIZED_BOTH);
+            visor.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al Mostrar el reporte: "+e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String id = JOptionPane.showInputDialog(null, "Ingrese el código de la factura", "0");
+        String path = "";
+        try {
+            path = getClass().getResource("/reportes/RptFactura.jasper").getPath();
+            path = URLDecoder.decode(path,"UTF-8");
+            Connection cn = Conexion.conectar();
+            Map parametros = new HashMap();  
+            parametros.put("pIdFactura",Integer.parseInt(id));
+         
+            JasperReport reporte = (JasperReport)JRLoader.loadObject(path);
+            JasperPrint imprimir = JasperFillManager.fillReport(reporte,parametros,cn);
+            JasperViewer visor = new JasperViewer(imprimir,false);
+          
+            visor.setTitle("Reporte de factura de venta de boletos");
+            visor.setExtendedState(MAXIMIZED_BOTH);
+            visor.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al Mostrar el reporte: "+e.getMessage());
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         JDateChooser jd = new JDateChooser();
+        String message ="Seleccione la fecha:\n";
+        Object[] params = {message,jd};
+        JOptionPane.showConfirmDialog(null,params,"Reporte Mensual", JOptionPane.PLAIN_MESSAGE);
+        String s="";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        s=sdf.format(((JDateChooser)params[1]).getDate());
+        String path = "";
+        try {
+            path = getClass().getResource("/reportes/RptIngresoMensual.jasper").getPath();
+            path = URLDecoder.decode(path,"UTF-8");
+            Connection cn = Conexion.conectar();
+            Map parametros = new HashMap();  
+            
+            String[] m = s.split("-");
+            parametros.put("pMes", Integer.parseInt(m[1]));
+            parametros.put("pAno", Integer.parseInt(m[0]));
+          
+            JasperReport reporte = (JasperReport)JRLoader.loadObject(path);
+            JasperPrint imprimir = JasperFillManager.fillReport(reporte,parametros,cn);
+            JasperViewer visor = new JasperViewer(imprimir,false);
+         
+            visor.setTitle("Reporte de ingresos de venta de boletos");
+            visor.setExtendedState(MAXIMIZED_BOTH);
+            visor.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al Mostrar el reporte: "+e.getMessage());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String path = "";
+        try {
+            path = getClass().getResource("/reportes/RptPorTecnologia.jasper").getPath();
+            path = URLDecoder.decode(path,"UTF-8");
+            Connection cn = Conexion.conectar();
+            Map parametros = new HashMap();  
+            
+            JasperReport reporte = (JasperReport)JRLoader.loadObject(path);
+            JasperPrint imprimir = JasperFillManager.fillReport(reporte,parametros,cn);
+            JasperViewer visor = new JasperViewer(imprimir,false);
+           
+            visor.setTitle("Reporte por tecnologia");
+            visor.setExtendedState(MAXIMIZED_BOTH);
+            visor.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al Mostrar el reporte: "+e.getMessage());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

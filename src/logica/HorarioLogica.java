@@ -12,7 +12,23 @@ package logica;
 public class HorarioLogica {
     private String horario;
     private String nombrePelicula,sala;
-    private int idPelicula,idHorario;
+    private int idPelicula,idHorario, idPelicula2, idHorario2;
+
+    public int getIdPelicula2() {
+        return idPelicula2;
+    }
+
+    public void setIdPelicula2(int idPelicula2) {
+        this.idPelicula2 = idPelicula2;
+    }
+
+    public int getIdHorario2() {
+        return idHorario2;
+    }
+
+    public void setIdHorario2(int idHorario2) {
+        this.idHorario2 = idHorario2;
+    }
 
     
     public String getHorario() {

@@ -461,49 +461,16 @@ public class JIFHorario extends javax.swing.JInternalFrame {
 
     private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
         if(validar()== true){
-        try {
-            HorarioLogica tl = new HorarioLogica();
-            HorarioDao ud = new HorarioDao();
-            
-            
-            tl.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
-            tl.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
-
-            ud.insertarHorario(tl);
-            JOptionPane.showMessageDialog(null, "Registro insertado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
-            limpiar();
-            llenarTablaHorario(0,"");
+            guardarHorario();   
             habilitarControles(true, false, false, false, false, true);
-            jCboPelicula.requestFocus();
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar el horario de la película: " + e);
-        }
         }
     }//GEN-LAST:event_jBtnGuardarActionPerformed
 
     private void jBtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarActionPerformed
         if(validar()==true){
-        try {
-          HorarioDao ud = new HorarioDao();
-          HorarioLogica tl = new HorarioLogica();
-          
-            
-            tl.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
-            tl.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
-            
-            
-          
-          ud.actualizarHorario(tl);
-          
-            JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
-            limpiar();
-            llenarTablaHorario(0,"");
-            habilitarControles(true,false,false,false,false,true);
-            jCboPelicula.requestFocus();
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el horario de la película: " + e);
+        if(validar()== true){
+            actualizarHorario();   
+            habilitarControles(true, false, false, false, false, true);
         }
        }
     }//GEN-LAST:event_jBtnActualizarActionPerformed
@@ -624,7 +591,7 @@ public class JIFHorario extends javax.swing.JInternalFrame {
     }
     
     
-    private void guardarUsuario(){
+    private void guardarHorario(){
         try {
             HorarioLogica ul = new HorarioLogica();
             HorarioDao ud = new HorarioDao();
@@ -645,8 +612,11 @@ public class JIFHorario extends javax.swing.JInternalFrame {
             HorarioLogica ul = new HorarioLogica();
             HorarioDao ud = new HorarioDao();
             
-            ul.setIdPelicula(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
-            ul.setIdHorario(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
+            ul.setIdPelicula(ud.obtenerIdPelicula(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(), 0))));
+            ul.setIdHorario(ud.obtenerIdHorario(String.valueOf(this.jTblHorario.getValueAt(jTblHorario.getSelectedRow(), 1))));
+            ul.setIdPelicula2(ud.obtenerIdPelicula(jCboPelicula.getSelectedItem().toString()));
+            ul.setIdHorario2(ud.obtenerIdHorario(jCboHorario.getSelectedItem().toString()));
+            
             ud.actualizarHorario(ul);
             JOptionPane.showMessageDialog(null, "Registro actualizado satisfactoriamente","Cinema Evolution",JOptionPane.INFORMATION_MESSAGE);
             limpiar();        

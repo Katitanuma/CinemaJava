@@ -403,13 +403,19 @@ public class JMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIGestionCartePeliActionPerformed
 
     private void jMIVisualizarEstrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIVisualizarEstrenoActionPerformed
-        JIFMostrarCartelera mc=new JIFMostrarCartelera();
-        jDPMdi.add(mc);
-        mc.show();
+        JIFMostrarCartelera mc;
+        try {
+            mc = new JIFMostrarCartelera();
+            jDPMdi.add(mc);
+            mc.show();
+
+            Dimension dimDP=jDPMdi.getSize();
+            Dimension dimF=mc.getSize();
+            mc.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
+        } catch (SQLException ex) {
+            Logger.getLogger(JMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        Dimension dimDP=jDPMdi.getSize();
-        Dimension dimF=mc.getSize();
-        mc.setLocation((dimDP.width-dimF.width)/2,(dimDP.height-dimF.height)/2);
     }//GEN-LAST:event_jMIVisualizarEstrenoActionPerformed
 
     private void jMIGestionFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGestionFacturaActionPerformed

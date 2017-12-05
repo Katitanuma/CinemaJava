@@ -8,10 +8,13 @@ package presentacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 
 /**
@@ -20,16 +23,30 @@ import javax.swing.UIManager;
  */
 public class JFraSplash extends javax.swing.JFrame {
 
-    /**
-     * Creates new form JFraSplash
-     */
+    Timer timer;
+    ActionListener oyenteAccion;
+    final int RETRASO = 120;
     public JFraSplash() {
         initComponents();
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/imagenes/splah12345.png")).getImage());
-        getContentPane().setBackground(new Color(36,47,65));
+        getContentPane().setBackground(new Color(36,47,65));    
+        UIManager.put( "nimbusOrange", new Color( 0, 204, 153 ) ); 
         
-        UIManager.put( "nimbusOrange", new Color( 0, 204, 153 ) );     
+        oyenteAccion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               if(jPB1.getValue()<100){
+                   jPB1.setValue(jPB1.getValue() + 5);
+               }else{
+                   timer.stop();
+                   setVisible(false);
+                   JFraLogin mdi = new JFraLogin();
+                   mdi.show();
+               }
+            }
+        };
+        timer = new Timer(RETRASO,oyenteAccion);
     }
 
     /**
@@ -42,17 +59,21 @@ public class JFraSplash extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jPB1 = new javax.swing.JProgressBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/splah12345.png"))); // NOI18N
 
-        jProgressBar1.setBackground(new java.awt.Color(0, 204, 153));
-        jProgressBar1.setForeground(new java.awt.Color(0, 153, 153));
-        jProgressBar1.setValue(100);
+        jPB1.setBackground(new java.awt.Color(0, 204, 153));
+        jPB1.setForeground(new java.awt.Color(0, 153, 153));
+        jPB1.setStringPainted(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,7 +82,7 @@ public class JFraSplash extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPB1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -69,11 +90,15 @@ public class JFraSplash extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPB1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        timer.start();
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -112,6 +137,6 @@ public class JFraSplash extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JProgressBar jPB1;
     // End of variables declaration//GEN-END:variables
 }

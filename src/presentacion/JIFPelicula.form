@@ -211,7 +211,7 @@
                 <Column editable="false" title="G&#xe9;nero" type="java.lang.Object"/>
                 <Column editable="false" title="Clasificaci&#xf3;n" type="java.lang.Object"/>
                 <Column editable="false" title="URL" type="java.lang.Object"/>
-                <Column editable="false" title="Imagen" type="java.lang.Object"/>
+                <Column editable="false" title="Imagen" type="java.lang.Byte"/>
               </Table>
             </Property>
             <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -489,6 +489,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFCodPelicula">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTFDuracion">
         </Component>

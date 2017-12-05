@@ -38,14 +38,14 @@ public class HorarioDao {
     
     
     public void actualizarHorario(HorarioLogica ul) throws SQLException{
-        String sql = "{call sp_actualizarPeliculaHorario(?,?)}";
+        String sql = "{call sp_actualizarPeliculaHorario(?,?,?,?)}";
         
         try(PreparedStatement ps = cn.prepareStatement(sql)){
-          
-
+        
             ps.setInt(1,ul.getIdPelicula());
             ps.setInt(2,ul.getIdHorario());
-            
+            ps.setInt(3,ul.getIdPelicula2());
+            ps.setInt(4,ul.getIdHorario2());
             ps.execute();
         }
     }

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="69863383-3c93-41bb-b759-703b050597b7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[{call sp_ReportePorTecnologia}]]>
+	</queryString>
+	<field name="TipoTecnologia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NombrePelicula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cantidad de Boletos" class="java.math.BigDecimal"/>
+	<field name="Ingreso" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="215" y="51" width="102" height="20" uuid="13b1d6c6-72c2-4622-8276-179ca5f6efa5"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cinema Evolution]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="17" width="349" height="34" uuid="57cf0cfc-bf66-4540-805c-df478128bc7b"/>
+				<textElement>
+					<font fontName="Arial" size="24" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Reporte por Tecnología]]></text>
+			</staticText>
+			<image>
+				<reportElement x="53" y="3" width="80" height="48" uuid="ea427874-da3b-4433-8ae0-387ccfa36fca"/>
+				<imageExpression><![CDATA["C:\\Users\\usuario\\Desktop\\estrella.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="34" width="555" height="1" uuid="1cd454ce-6f3f-4c52-9c2d-efd411f2ae16"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="25" width="555" height="1" uuid="6cc7bfdc-b233-4072-8aad-90afae999d69"/>
+			</line>
+			<staticText>
+				<reportElement x="113" y="5" width="215" height="20" uuid="5566d458-03bb-4158-9aa2-2a04ffb41411"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pelicula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="5" width="113" height="20" uuid="99bbac39-47b1-40f6-8839-02e73ee4e40e"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tecnología]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="5" width="113" height="20" uuid="4dd6fc25-bf49-4f74-855d-0917d11104e8"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="5" width="113" height="20" uuid="a9a1c23f-56b5-4098-85c7-f632aabd8c57"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Boletos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="24" width="555" height="1" uuid="b1cd326b-82a4-4a62-87da-2871ab8679d5"/>
+			</line>
+			<textField>
+				<reportElement x="1" y="5" width="112" height="20" uuid="dd8e29ee-a27e-4614-beea-8666e3d1c714"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TipoTecnologia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="5" width="214" height="20" uuid="6d90938e-95f3-40bb-b2a5-eff371fe3653"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NombrePelicula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="5" width="113" height="20" uuid="ca571715-21a5-49ea-83e7-12c0c93bc444"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cantidad de Boletos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="5" width="113" height="20" uuid="41fa41a7-610f-41b4-8d81-ff8d68df27b3"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Ingreso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
