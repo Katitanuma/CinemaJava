@@ -32,6 +32,7 @@ public class JFraSplash extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/imagenes/splah12345.png")).getImage());
         getContentPane().setBackground(new Color(36,47,65));    
         UIManager.put( "nimbusOrange", new Color( 0, 204, 153 ) ); 
+        jPB1.setForeground(Color.BLACK);
         
         oyenteAccion = new ActionListener() {
             @Override
