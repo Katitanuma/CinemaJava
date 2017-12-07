@@ -198,7 +198,8 @@ public class JIFLogAuditoria extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jTblLog);
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda por", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        jPanel9.setToolTipText("");
         jPanel9.setOpaque(false);
 
         jTFBusqueda2.addActionListener(new java.awt.event.ActionListener() {
