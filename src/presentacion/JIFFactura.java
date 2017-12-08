@@ -307,7 +307,7 @@ public class JIFFactura extends javax.swing.JInternalFrame {
         buttonGroup1.add(jRBNombreEmpleado);
         jRBNombreEmpleado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRBNombreEmpleado.setSelected(true);
-        jRBNombreEmpleado.setText("Pelìcula");
+        jRBNombreEmpleado.setText("Película");
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/search_flat.png"))); // NOI18N
 
@@ -327,13 +327,13 @@ public class JIFFactura extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(167, 167, 167)
+                .addGap(24, 24, 24)
                 .addComponent(jRBNombreEmpleado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTFBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                .addContainerGap(232, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +341,7 @@ public class JIFFactura extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jRBNombreEmpleado)
+                        .addComponent(jRBNombreEmpleado, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jTFBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -464,7 +464,7 @@ public class JIFFactura extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código Factura", "Fecha", "Nombre Pelìcula", "Tecnologìa", "Cantidad", "Precio", "Total"
+                "Código Factura", "Fecha", "Nombre Película", "Tecnología", "Cantidad", "Precio", "Total"
             }
         ));
         jScrollPane1.setViewportView(jTblFactura);

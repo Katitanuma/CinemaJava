@@ -13,7 +13,7 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/cineevolution?zeroDateTimeBehavior=convertToNull","root","root");
+            return DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/cineevolution?zeroDateTimeBehavior=convertToNull","root","root");
         
 
         } catch (ClassNotFoundException e) {

@@ -33,7 +33,7 @@ public class JIFLogAuditoria extends javax.swing.JInternalFrame {
     public JIFLogAuditoria() throws SQLException {
         initComponents();
         fondo();
-        llenarTablaLogAuditoria("");
+        //llenarTablaLogAuditoria("");
     }
     
      public void fondo(){
