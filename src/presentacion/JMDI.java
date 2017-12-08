@@ -5,7 +5,9 @@
  */
 package presentacion;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +63,7 @@ public class JMDI extends javax.swing.JFrame {
         jMIVisualizarReportes = new javax.swing.JMenuItem();
         jMLog = new javax.swing.JMenu();
         jMIVisualizarLog = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CinemaEvolution");
@@ -281,6 +284,7 @@ public class JMDI extends javax.swing.JFrame {
 
         jMLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/if_log_199213.png"))); // NOI18N
         jMLog.setText("Log Auditoría");
+        jMLog.setFocusable(false);
         jMLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMLog.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMLog.setPreferredSize(new java.awt.Dimension(100, 19));
@@ -298,13 +302,26 @@ public class JMDI extends javax.swing.JFrame {
 
         menuBar.add(jMLog);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8_Help_48px_4.png"))); // NOI18N
+        jMenu1.setText("Ayuda");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenu1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jMenu1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jMenu1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        menuBar.add(jMenu1);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDPMdi, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+            .addComponent(jDPMdi, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -482,6 +499,17 @@ public class JMDI extends javax.swing.JFrame {
         miFormulario.show();
     }//GEN-LAST:event_jMICambiarUsuarioActionPerformed
 
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        Desktop dsk = Desktop.getDesktop(); 
+        try {
+            File archivo = new File("src/ayuda/ManualCinemaEvolutionHelp.chm");
+            dsk.open(archivo);
+        } catch (Exception e) {
+            
+        }
+        
+    }//GEN-LAST:event_jMenu1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -542,6 +570,7 @@ public class JMDI extends javax.swing.JFrame {
     private javax.swing.JMenu jMReportes;
     public javax.swing.JMenu jMTecnologia;
     public javax.swing.JMenu jMUsuario;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
